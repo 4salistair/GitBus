@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
 import { NgModule } from '@angular/core';
+
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AlertButtonComponent } from './alert-button/alert-button.component';
@@ -26,7 +28,6 @@ import { GigDetailsComponent } from './gig-details/gig-details.component';
 
     BrowserModule,
     FormsModule,
-
     BrowserModule,
     AppRoutingModule,
     FlexLayoutModule,

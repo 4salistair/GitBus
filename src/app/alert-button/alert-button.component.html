@@ -39,33 +39,43 @@
   <button  mat-raised-button (click)="Reset()" >  Reset </button>
   <br>
 
-<div class="example-container">
+  
+  <form 
+  #f="ngForm" 
+  (ngSubmit)="onSubmit(f)">
+
+ 
   <mat-form-field appearance="fill">
     <mat-label>Gig Artist Name</mat-label>
-    <input matInput>
+    <input matInput name="gigArtistName" ngModel>
   </mat-form-field>
   <br>
+
   <mat-form-field appearance="fill">
-    <mat-label>Venue</mat-label>
-    <mat-select>
-      <mat-option value="option">Manchester</mat-option>
-      <mat-option value="option">Liverpool</mat-option>
-    </mat-select>
+    <mat-label>Gig Venue Name</mat-label>
+      <mat-select name="gigVenueName" ngModel>
+        <mat-option value="Manchester">Manchester</mat-option>
+        <mat-option value="Liverpool">Liverpool</mat-option>
+      </mat-select>
   </mat-form-field>
   <br>
+
   <mat-form-field appearance="fill">
     <mat-label>Gig Description</mat-label>
-    <textarea matInput></textarea>
+    <textarea matInput name="gigDescription" ngModel> </textarea>
   </mat-form-field>
   <br>
+
   <mat-label>Choose a date</mat-label>
-  <input matInput [matDatepicker]="picker">
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-</div>
-<br>
-<button  mat-raised-button (click)="AddGig()" >  Add Gig </button>
-</div>
+    <input matInput [matDatepicker]="picker">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  <br> 
+  
+  <button type="Submit" mat-raised-button>  Add Gig </button>
+  
+</form>
+ 
 
 <app-gig-details></app-gig-details>
 <!--<div>

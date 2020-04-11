@@ -1,4 +1,5 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
+import { NgForm } from '@angular/forms/src/directives/ng_form';
 
 @Component({
   selector: 'app-alert-button',
@@ -45,10 +46,12 @@ export class AlertButtonComponent implements OnInit {
   }
 
 
-  AddGig() {
+    onSubmit(form: NgForm) {
 
-
-  }
+      console.log(form.value.gigDescription);
+      console.log(form.value.gigVenueName);
+      console.log(form.value.gigArtistName);
+    }
 
 
 }
