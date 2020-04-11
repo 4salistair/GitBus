@@ -6,19 +6,16 @@
   <mat-card class="example-card">
     <mat-card-header>
       <!-- <div mat-card-avatar class="example-header-image"></div> -->
-      <mat-card-title> Gig Artist Name </mat-card-title>
-      <mat-card-subtitle>Gig Venue Name </mat-card-subtitle>
-      <mat-card-subtitle>Gig Date </mat-card-subtitle>
+      <mat-card-title> {{gigArtistName}} </mat-card-title>
+      <mat-card-subtitle> {{gigVenueName}} </mat-card-subtitle>
+      <mat-card-subtitle> {{gigDate}} </mat-card-subtitle>
      
     </mat-card-header>
     <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
     <mat-card-content>
-      <p>
-      Gig Description 
-      </p>
 
       <P>
-        Please click to register a vote.
+        Please click to get on the bus.
        
        <br><br>
      
@@ -39,8 +36,11 @@
   <button  mat-raised-button (click)="Reset()" >  Reset </button>
   <br>
 
+  <mat-card class="example-card">
+    
+      <mat-card-title> Add Gig details</mat-card-title>
   
-  <form 
+<form 
   #f="ngForm" 
   (ngSubmit)="onSubmit(f)">
 
@@ -67,15 +67,17 @@
   <br>
 
   <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker">
+    <input matInput [matDatepicker]="picker" name="gigDate" ngModel>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   <br> 
   
-  <button type="Submit" mat-raised-button>  Add Gig </button>
-  
+  <mat-card-actions>
+    <button type="Submit" mat-raised-button>  Add Gig </button>
+  </mat-card-actions>
 </form>
  
+</mat-card>
 
 <app-gig-details></app-gig-details>
 <!--<div>

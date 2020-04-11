@@ -12,6 +12,11 @@ export class AlertButtonComponent implements OnInit {
   totalPrice = 250;
   totalrunningPrice = 0;
 
+  gigDescription: string;
+  gigVenueName: string;
+  gigArtistName: string;
+  gigDate: Date;
+
 
   constructor() { }
 
@@ -51,7 +56,14 @@ export class AlertButtonComponent implements OnInit {
       console.log(form.value.gigDescription);
       console.log(form.value.gigVenueName);
       console.log(form.value.gigArtistName);
+      console.log(form.value.gigDate);
+
+
+      this.gigDescription = form.value.gigDescription;
+      this.gigVenueName = form.value.gigVenueName;
+      this.gigArtistName = form.value.gigArtistName;
+      this.gigDate = form.value.gigArtistName;
+
+
     }
-
-
 }
