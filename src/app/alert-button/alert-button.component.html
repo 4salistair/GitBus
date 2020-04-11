@@ -1,0 +1,66 @@
+
+
+<div fxLayout="column" fxLayoutAlign="space-around center">
+
+
+  <mat-card class="example-card">
+    <mat-card-header>
+      <!-- <div mat-card-avatar class="example-header-image"></div> -->
+      <mat-card-title> Gig Artist Name </mat-card-title>
+      <mat-card-subtitle>Gig Venue Name </mat-card-subtitle>
+      <mat-card-subtitle>Gig Date </mat-card-subtitle>
+     
+    </mat-card-header>
+    <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+    <mat-card-content>
+      <p>
+      Gig Description 
+      </p>
+
+      <P>
+        Please click to register a vote.
+       
+       <br><br>
+     
+       <button  mat-raised-button (click)="upVotes()" >  Get On It </button>
+       <br><br> The number of people currently on the bus {{ totalVote }} 
+       <br> <br> The cost per person is {{ totalrunningPrice }}
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </mat-card-actions>
+  </mat-card>
+
+
+
+
+  <br> <br>
+  <button  mat-raised-button (click)="Reset()" >  Reset </button>
+  <br>
+  <button  mat-raised-button (click)="AddGig()" >  Add Gig </button>
+</div>
+  
+
+<app-gig-details></app-gig-details>
+<!--<div>
+
+  <h1>Alert Button</h1>
+
+  <article  class = "message is-warning"
+            [hidden] = "hiddenContent">
+    <div    class = "message message header">
+      <p>   warning code {{ severity }} </p>
+    </div>
+
+    <div    class = "message body">
+      <p>   {{ content | async }} </p>
+    </div>
+    
+  </article>
+
+  <button   (click)="toogle()"
+            class = "button is info"> Increment         
+  </button>
+
+</div>  --> 
