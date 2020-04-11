@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
-import { Gig } from '../gigModel';
+import { Gigs } from '../gigModel';
 
 @Component({
   selector: 'app-alert-button',
@@ -12,7 +12,7 @@ export class AlertButtonComponent implements OnInit {
   totalVote = 0;
   totalrunningPrice = 0;
 
-  thisGig: Gig;
+  thisGig: Gigs;
   // gigDescription: string;
   // gigVenueName: string;
   // gigArtistName: string;

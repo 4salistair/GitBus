@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject } from 'rxjs/Subject';
-
 import { map } from 'rxjs/operators';
 import { Subscription} from 'rxjs';
-
-// import { gigModel } from './exercise.model';
+import { Gigs } from './app/gigModel';
 
 
 @Injectable()
 export class GigService {
 
   private fbSubs: Subscription[] = [];
-
+  private availableGigs: Gigs[] = [];
+  gigsChanged = new Subject<Gigs[]>();
 
   constructor(private db: AngularFirestore,
               ) { }
@@ -21,27 +20,28 @@ export class GigService {
   fetchGigs() { }
 
   }
-//     this.fbSubs.push(this.db
-//     .collection('availableExercises')
-//     .snapshotChanges()
-//     .pipe(map(docData => {
-//       return docData.map(doc => {
-//         return {
-//           id: doc.payload.doc.id,
-//           name: doc.payload.doc.data()['name'],
+this.fbSubs.push(this.db
+       .collection('gigs')
+       .snapshotChanges()
+       .map(docData => {
+
+        return docData.map(doc => {
+         return {
+             id: doc.payload.doc.id
+//            name: doc.payload.doc.data()['gigTotalPrice'],
 //           duration: doc.payload.doc.data()['duration'],
 //           calories: doc.payload.doc.data()['calories'],
-//         };
-//     });
-//   })
-//    )
-//    .subscribe((exercises: Exercise[]) => {
-//     //   this.uiservice.loadingStateChagne.next(false);
-//     //   this.availableExercises = exercises;
-//     //   this.exercisesChanged.next([...this.availableExercises]);
-//     }, error => { 
-//       this.uiservice.showSnackbar('Fetching Exercises Failed', null, 3000);
-//     }));
+          };
+     });
+   })
+    )
+    .subscribe((Gig: Gigs[]) => {
+      this.availableGigs =  Gig;
+      this.gigschanged.next([...this.availableExercises]);
+     }, error => {
+       console.log('Fetching Gigs Failed');
+ //     this.uiservice.showSnackbar('Fetching Gigs Failed', null, 3000);
+       });
 //   }
 
 // startExercise(selectId: string) {
