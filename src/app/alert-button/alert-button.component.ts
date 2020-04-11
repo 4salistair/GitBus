@@ -9,25 +9,23 @@ import { NgForm } from '@angular/forms/src/directives/ng_form';
 export class AlertButtonComponent implements OnInit {
 
   totalVote = 0;
-  totalPrice = 250;
   totalrunningPrice = 0;
 
   gigDescription: string;
   gigVenueName: string;
   gigArtistName: string;
   gigDate: Date;
+  gigTotalPrice = 250;
 
 
   constructor() { }
 
   ngOnInit() {
 
-   // this.totalVote = 0;
-    console.log(this.totalVote);
   }
 
   Total() {
-    this.totalrunningPrice =  this.totalPrice + this.totalVote;
+    this.totalrunningPrice =  this.gigTotalPrice + this.totalVote;
     console.log(this.totalrunningPrice);
     return this.totalrunningPrice;
   }
@@ -35,7 +33,7 @@ export class AlertButtonComponent implements OnInit {
     this.totalVote++;
     console.log(this.totalVote);
 
-    this.totalrunningPrice =  this.totalPrice / this.totalVote;
+    this.totalrunningPrice =  this.gigTotalPrice / this.totalVote;
     console.log(this.totalrunningPrice);
 
     return this.totalVote;
@@ -45,8 +43,8 @@ export class AlertButtonComponent implements OnInit {
   Reset() {
     console.log('Reset');
     this.totalVote = 0;
-    this.totalPrice = 250;
-    this.totalrunningPrice = 900;
+    this.gigTotalPrice = 0;
+    this.totalrunningPrice = 0;
 
   }
 
@@ -57,13 +55,13 @@ export class AlertButtonComponent implements OnInit {
       console.log(form.value.gigVenueName);
       console.log(form.value.gigArtistName);
       console.log(form.value.gigDate);
+      console.log(form.value.gigTotalPrice);
 
-
+      this.gigArtistName = form.value.gigArtistName;
       this.gigDescription = form.value.gigDescription;
       this.gigVenueName = form.value.gigVenueName;
-      this.gigArtistName = form.value.gigArtistName;
-      this.gigDate = form.value.gigArtistName;
-
+      this.gigDate = form.value.gigDate;
+      this.gigTotalPrice = form.value.gigTotalPrice;
 
     }
 }
