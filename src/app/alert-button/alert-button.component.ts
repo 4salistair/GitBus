@@ -1,5 +1,6 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
+import { Gig } from '../gigModel';
 
 @Component({
   selector: 'app-alert-button',
@@ -11,11 +12,12 @@ export class AlertButtonComponent implements OnInit {
   totalVote = 0;
   totalrunningPrice = 0;
 
-  gigDescription: string;
-  gigVenueName: string;
-  gigArtistName: string;
-  gigDate: Date;
-  gigTotalPrice = 250;
+  thisGig: Gig;
+  // gigDescription: string;
+  // gigVenueName: string;
+  // gigArtistName: string;
+  // gigDate: Date;
+  // gigTotalPrice = 250;
 
 
   constructor() { }
@@ -25,7 +27,7 @@ export class AlertButtonComponent implements OnInit {
   }
 
   Total() {
-    this.totalrunningPrice =  this.gigTotalPrice + this.totalVote;
+    this.totalrunningPrice =  this.thisGig.gigTotalPrice + this.totalVote;
     console.log(this.totalrunningPrice);
     return this.totalrunningPrice;
   }
@@ -33,7 +35,7 @@ export class AlertButtonComponent implements OnInit {
     this.totalVote++;
     console.log(this.totalVote);
 
-    this.totalrunningPrice =  this.gigTotalPrice / this.totalVote;
+    this.totalrunningPrice =  this.thisGig.gigTotalPrice / this.totalVote;
     console.log(this.totalrunningPrice);
 
     return this.totalVote;
@@ -43,7 +45,7 @@ export class AlertButtonComponent implements OnInit {
   Reset() {
     console.log('Reset');
     this.totalVote = 0;
-    this.gigTotalPrice = 0;
+    this.thisGig.gigTotalPrice = 0;
     this.totalrunningPrice = 0;
 
   }
@@ -57,11 +59,11 @@ export class AlertButtonComponent implements OnInit {
       console.log(form.value.gigDate);
       console.log(form.value.gigTotalPrice);
 
-      this.gigArtistName = form.value.gigArtistName;
-      this.gigDescription = form.value.gigDescription;
-      this.gigVenueName = form.value.gigVenueName;
-      this.gigDate = form.value.gigDate;
-      this.gigTotalPrice = form.value.gigTotalPrice;
+      this.thisGig.gigArtistName = form.value.gigArtistName;
+      this.thisGig.gigDescription = form.value.gigDescription;
+      this.thisGig.gigVenueName = form.value.gigVenueName;
+      this.thisGig.gigDate = form.value.gigDate;
+      this.thisGig.gigTotalPrice = form.value.gigTotalPrice;
 
     }
 }
