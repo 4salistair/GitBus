@@ -2,13 +2,17 @@
 
 <div fxLayout="column" fxLayoutAlign="space-around center">
 
+ 
+<div class="cardFormat" *ngFor="let gig of gigObservible | async">
 
-<mat-card class="example-card">
+<mat-card class="example-card" >
   <mat-card-header>
-    <mat-card-title>    {{gigArtistName}} </mat-card-title>
-    <mat-card-subtitle> {{gigDescription}} </mat-card-subtitle>
-    <mat-card-subtitle> {{gigVenueName}} </mat-card-subtitle>
-    <mat-card-subtitle> {{gigDate}} </mat-card-subtitle>   
+    
+
+    <mat-card-title>    {{ gig.gigArtistName }} </mat-card-title>
+    <mat-card-subtitle> {{ gig.gigDescription }} </mat-card-subtitle>
+    <mat-card-subtitle> {{ gig.gigVenueName}} </mat-card-subtitle>
+    <mat-card-subtitle> {{ gig.gigDate}} </mat-card-subtitle>   
   </mat-card-header>
  
   <mat-card-content>
@@ -23,8 +27,9 @@
       <button mat-button>SHARE</button>
   </mat-card-actions>
 </mat-card>
-
-
+<br>
+<br>
+</div>
 
 
   <br> <br>
@@ -78,6 +83,16 @@
     <button type="Submit" mat-raised-button>  Add Gig </button>
   </mat-card-actions>
 </form>
+
+<mat-form-field>
+  <mat-select placeholder = "Choose Gig" ngModel name="gigs">
+    <mat-option *ngFor="let gig of gigObservible | async" [value]="gig.id" >
+   
+     {{ gig.gigArtistName }}
+     
+    </mat-option>
+  </mat-select>
+</mat-form-field>
  
 </mat-card>
 

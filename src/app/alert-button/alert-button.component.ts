@@ -42,19 +42,20 @@ export class AlertButtonComponent implements OnInit {
       return docArray.map( doc => {
       return {
         id: doc.payload.doc.id,
-        gigArtistName: doc.payload.doc['gigArtistName'],
-        gigDescription: doc.payload.doc['gigDescription'],
-        gigVenueName: doc.payload.doc['gigVenueName'],
-        gigDate: doc.payload.doc['gigDate'],
-        gigTotalPrice: doc.payload.doc['gigTotalPrice']
+        gigArtistName: doc.payload.doc.data()['gigArtistName'],
+        gigDescription: doc.payload.doc.data()['gigDescription'],
+        gigVenueName: doc.payload.doc.data()['gigVenueName'],
+        gigDate: doc.payload.doc.data()['gigDate'],
+        gigTotalPrice: doc.payload.doc.data()['gigTotalPrice']
       };
     });
 
   }));
   // .subscribe( result => {
-  //    console.log(result);
+  console.log(this.gigObservible);
   //   });
 
+  this.gigObservible.subscribe( result => { console.log(result); });
 
   }
 
