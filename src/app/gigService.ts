@@ -3,10 +3,12 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Subject } from 'rxjs/Subject';
 import { map } from 'rxjs/operators';
 import { Subscription} from 'rxjs';
-import { Gigs } from './app/gigModel';
+import { Gigs } from './gigModel';
 
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class GigService {
 
   private fbSubs: Subscription[] = [];
@@ -17,18 +19,16 @@ export class GigService {
               ) { }
 
 
-  fetchGigs() { }
-
-  }
+  fetchGigs() {
 this.fbSubs.push(this.db
        .collection('gigs')
        .snapshotChanges()
-       .map(docData => {
+       .pipe(map(docData => {
 
         return docData.map(doc => {
          return {
-             id: doc.payload.doc.id
-//            name: doc.payload.doc.data()['gigTotalPrice'],
+             id: doc.payload.doc.id,
+//              name: doc.payload.doc.data()['gigTotalPrice'],
 //           duration: doc.payload.doc.data()['duration'],
 //           calories: doc.payload.doc.data()['calories'],
           };
@@ -37,11 +37,17 @@ this.fbSubs.push(this.db
     )
     .subscribe((Gig: Gigs[]) => {
       this.availableGigs =  Gig;
-      this.gigschanged.next([...this.availableExercises]);
+      this.gigsChanged.next([...this.availableGigs]);
+      // gigschanged.next([...this.availableExercises]);
      }, error => {
        console.log('Fetching Gigs Failed');
  //     this.uiservice.showSnackbar('Fetching Gigs Failed', null, 3000);
-       });
+       }));
+
+
+      }
+
+    }
 //   }
 
 // startExercise(selectId: string) {

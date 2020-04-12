@@ -1,5 +1,6 @@
 export interface Gigs {
 
+    id: string;
     gigDescription: string;
     gigVenueName: string;
     gigArtistName: string;

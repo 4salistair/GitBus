@@ -1,13 +1,20 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { Gigs } from '../gigModel';
+import { GigService } from '../gigService';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-alert-button',
   templateUrl: './alert-button.component.html',
   styleUrls: ['./alert-button.component.css']
 })
+
 export class AlertButtonComponent implements OnInit {
+
+  gigObservible: Observable<Gigs[]>;
 
   totalVote = 0;
   totalrunningPrice = 0;
@@ -20,9 +27,34 @@ export class AlertButtonComponent implements OnInit {
   // gigTotalPrice = 250;
 
 
-  constructor() { }
+  constructor(private Gigservice: GigService, private db: AngularFirestore
+    ) { }
 
   ngOnInit() {
+
+  this.Gigservice.fetchGigs();
+  console.log(this.Gigservice.fetchGigs());
+
+
+  this.gigObservible = this.db.collection('gigs')
+  .snapshotChanges()
+  .pipe(map( docArray => {
+      return docArray.map( doc => {
+      return {
+        id: doc.payload.doc.id,
+        gigArtistName: doc.payload.doc['gigArtistName'],
+        gigDescription: doc.payload.doc['gigDescription'],
+        gigVenueName: doc.payload.doc['gigVenueName'],
+        gigDate: doc.payload.doc['gigDate'],
+        gigTotalPrice: doc.payload.doc['gigTotalPrice']
+      };
+    });
+
+  }));
+  // .subscribe( result => {
+  //    console.log(result);
+  //   });
+
 
   }
 
