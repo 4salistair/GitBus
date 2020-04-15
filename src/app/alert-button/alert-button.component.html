@@ -2,7 +2,6 @@
 
 <div fxLayout="column" fxLayoutAlign="space-around center">
 
- 
 <div class="cardFormat" *ngFor="let gig of gigObservible | async">
 
 <mat-card class="example-card" >
@@ -17,7 +16,7 @@
  
   <mat-card-content>
       <P>Please click to get on the bus. <br><br>
-      <button  mat-raised-button (click)="upVotes()"> Get On It </button>
+      <button  mat-raised-button (click)="signUp()"> Get On It </button>
       <br><br> The number of people currently on the bus {{ totalVote }} 
       <br> <br> The cost per person is {{ totalrunningPrice }}
   </mat-card-content>
@@ -95,5 +94,5 @@
 </mat-form-field>
  
 </mat-card>
-
-<!-- <app-gig-details></app-gig-details> -->
+<!-- 
+ <app-gig-details></app-gig-details>  -->

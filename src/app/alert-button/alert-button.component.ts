@@ -1,10 +1,12 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, Inject, OnInit, OnChanges } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { Gigs } from '../gigModel';
 import { GigService } from '../gigService';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { MatDialog } from '@angular/material';
+import { GigDetailsComponent } from '../gig-details/gig-details.component';
 
 @Component({
   selector: 'app-alert-button',
@@ -14,7 +16,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 export class AlertButtonComponent implements OnInit {
 
-  gigObservible: Observable<Gigs[]>;
+ private gigObservible: Observable<Gigs[]>;
 
   totalVote = 0;
   totalrunningPrice = 0;
@@ -27,8 +29,10 @@ export class AlertButtonComponent implements OnInit {
   // gigTotalPrice = 250;
 
 
-  constructor(private Gigservice: GigService, private db: AngularFirestore
-    ) { }
+  constructor(private Gigservice: GigService,
+              private db: AngularFirestore,
+              private dialog: MatDialog) { }
+
 
   ngOnInit() {
 
@@ -46,14 +50,13 @@ export class AlertButtonComponent implements OnInit {
         gigDescription: doc.payload.doc.data()['gigDescription'],
         gigVenueName: doc.payload.doc.data()['gigVenueName'],
         gigDate: doc.payload.doc.data()['gigDate'],
-        gigTotalPrice: doc.payload.doc.data()['gigTotalPrice']
+        gigTotalPrice: doc.payload.doc.data()['gigTotalPrice'],
+        gigPunterCount: doc.payload.doc.data()['gigPunterCount']
       };
     });
 
   }));
-  // .subscribe( result => {
-  console.log(this.gigObservible);
-  //   });
+
 
   this.gigObservible.subscribe( result => { console.log(result); });
 
@@ -64,12 +67,15 @@ export class AlertButtonComponent implements OnInit {
     console.log(this.totalrunningPrice);
     return this.totalrunningPrice;
   }
-  upVotes() {
+  signUp() {
     this.totalVote++;
     console.log(this.totalVote);
 
-    this.totalrunningPrice =  this.thisGig.gigTotalPrice / this.totalVote;
-    console.log(this.totalrunningPrice);
+    // this.totalrunningPrice =  this.thisGig.gigTotalPrice / this.totalVote;
+    // console.log(this.totalrunningPrice);
+
+    this.dialog.open(GigDetailsComponent);
+
 
     return this.totalVote;
 
@@ -92,11 +98,20 @@ export class AlertButtonComponent implements OnInit {
       console.log(form.value.gigDate);
       console.log(form.value.gigTotalPrice);
 
-      this.thisGig.gigArtistName = form.value.gigArtistName;
-      this.thisGig.gigDescription = form.value.gigDescription;
-      this.thisGig.gigVenueName = form.value.gigVenueName;
-      this.thisGig.gigDate = form.value.gigDate;
-      this.thisGig.gigTotalPrice = form.value.gigTotalPrice;
+     // WORKS BUT CAN GET IT USE A GIG TYPE TO UP DATE
 
+      const runningGig = {
+        gigDescription: form.value.gigDescription,
+        gigVenueName: form.value.gigVenueName,
+        gigArtistName: form.value.gigArtistName,
+        gigDate: form.value.gigDate,
+        gigTotalPrice: form.value.gigTotalPrice
+      };
+      this.addDataToDatabase(runningGig);
+    }
+
+
+    private addDataToDatabase(addGig: any) {
+      this.db.collection('gigs').add(addGig);
     }
 }

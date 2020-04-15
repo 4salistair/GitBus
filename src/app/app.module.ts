@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-
 import { NgModule } from '@angular/core';
 
 
@@ -26,9 +25,7 @@ import { environment } from 'src/environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
-
     AlertButtonComponent,
-
     GigDetailsComponent,
   ],
   imports: [
@@ -45,7 +42,9 @@ import { environment } from 'src/environments/environment';
     AngularFireAuthModule,
   ],
 
-  providers: [GigService],
-  bootstrap: [AppComponent]
+  providers: [GigService, { provide: MaterialModule, useValue: [] }],
+  bootstrap: [AppComponent],
+  entryComponents: [GigDetailsComponent]
+
 })
 export class AppModule { }

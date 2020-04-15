@@ -6,4 +6,5 @@ export interface Gigs {
     gigArtistName: string;
     gigDate: Date;
     gigTotalPrice: number;
+    gigPunterCount: number;
 }
