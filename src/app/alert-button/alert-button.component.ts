@@ -1,10 +1,10 @@
-import { Component, Inject, OnInit, OnChanges } from '@angular/core';
+import { Component, Inject, OnInit, OnChanges, Input } from '@angular/core';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { Gigs } from '../gigModel';
 import { GigService } from '../gigService';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material';
 import { GigDetailsComponent } from '../gig-details/gig-details.component';
 
@@ -22,22 +22,30 @@ export class AlertButtonComponent implements OnInit {
   totalrunningPrice = 0;
 
   thisGig: Gigs;
+  fieldToUpdateAndValue: JSON;
   // gigDescription: string;
   // gigVenueName: string;
   // gigArtistName: string;
   // gigDate: Date;
   // gigTotalPrice = 250;
 
+  // gigRef: AngularFirestoreCollection<Gigs>;
+  // Gigs$: Observable<Gigs[]>;
 
   constructor(private Gigservice: GigService,
               private db: AngularFirestore,
               private dialog: MatDialog) { }
 
+  
 
   ngOnInit() {
 
-  this.Gigservice.fetchGigs();
-  console.log(this.Gigservice.fetchGigs());
+  // this.gigRef = this.db.collection('Gigs');
+  // this.Gigs$ = this.gigRef.valueChanges();
+
+
+  //this.Gigservice.fetchGigs();
+  // console.log(this.Gigservice.fetchGigs());
 
 
   this.gigObservible = this.db.collection('gigs')
@@ -58,28 +66,32 @@ export class AlertButtonComponent implements OnInit {
   }));
 
 
-  this.gigObservible.subscribe( result => { console.log(result); });
+  // this.gigObservible.subscribe( result => { console.log('Rusult Object from datastore ' + result); });
 
   }
 
-  Total() {
-    this.totalrunningPrice =  this.thisGig.gigTotalPrice + this.totalVote;
-    console.log(this.totalrunningPrice);
-    return this.totalrunningPrice;
-  }
-  signUp() {
-    this.totalVote++;
-    console.log(this.totalVote);
+  signUp(gig: Gigs) {
 
-    // this.totalrunningPrice =  this.thisGig.gigTotalPrice / this.totalVote;
-    // console.log(this.totalrunningPrice);
-
+  //  this.totalPunterIncrement(gig);
     this.dialog.open(GigDetailsComponent);
 
+  }
 
-    return this.totalVote;
+
+  totalPunterIncrement(gig: Gigs) {
+
+    const punterCount = gig.gigPunterCount ++;
+    console.log(punterCount);
+
+    this.db.collection('gigs')
+     .doc(gig.id)
+     .set({ gigPunterCount: punterCount }, { merge: true });
+
+    console.log('delay ' + punterCount);
+    this.signUp(gig);
 
   }
+
 
   Reset() {
     console.log('Reset');
@@ -98,20 +110,27 @@ export class AlertButtonComponent implements OnInit {
       console.log(form.value.gigDate);
       console.log(form.value.gigTotalPrice);
 
-     // WORKS BUT CAN GET IT USE A GIG TYPE TO UP DATE
+     // WORKS BUT CAN'T GET IT USE A GIG TYPE TO UP DATE
 
       const runningGig = {
         gigDescription: form.value.gigDescription,
         gigVenueName: form.value.gigVenueName,
         gigArtistName: form.value.gigArtistName,
         gigDate: form.value.gigDate,
-        gigTotalPrice: form.value.gigTotalPrice
+        gigTotalPrice: form.value.gigTotalPrice,
+        gigPunterCount: 0
       };
       this.addDataToDatabase(runningGig);
     }
 
-
     private addDataToDatabase(addGig: any) {
       this.db.collection('gigs').add(addGig);
     }
+
+  //  private updateDataToDatabase(updateGig: Gigs, fieldToUpdate: string, valueToUpdate: any ) {
+  //     this.db.collection('gigs')
+  //         .doc(updateGig.id)
+  //         .set({ fieldToUpdate: valueToUpdate }, { merge: true });
+
+  //  }
 }
