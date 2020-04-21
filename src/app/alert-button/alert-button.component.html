@@ -16,14 +16,14 @@
         <mat-card-title>    {{ gig.gigArtistName }} </mat-card-title>
         <mat-card-subtitle> {{ gig.gigDescription }} </mat-card-subtitle>
         <mat-card-subtitle> {{ gig.gigVenueName}} </mat-card-subtitle>
-        <mat-card-subtitle> {{ gig.gigDate }} </mat-card-subtitle>   
+        <mat-card-subtitle> {{ gig.gigDate.toMillis()  | date: 'medium'}} </mat-card-subtitle>   
       </mat-card-header>
- 
+      'medium'
       <mat-card-content>
         <P>Please click to get on the bus. <br><br>
         <button button (click)="totalPunterIncrement(gig)" mat-raised-button> Get On It </button>
-        <br><br> The number of people currently on the bus {{ totalVote }} 
-        <br> <br> The cost per person is {{ totalrunningPrice }}
+        <br><br> The number of people currently on the bus is {{ gig.gigPunterCount }} 
+        <br> <br> The cost per person is {{ gig.gigPunterCount / totalrunningPrice }}
       </mat-card-content>
   
 

@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit, OnChanges, Input } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { Gigs } from '../gigModel';
 import { GigService } from '../gigService';
@@ -23,29 +24,15 @@ export class AlertButtonComponent implements OnInit {
 
   thisGig: Gigs;
   fieldToUpdateAndValue: JSON;
-  // gigDescription: string;
-  // gigVenueName: string;
-  // gigArtistName: string;
-  // gigDate: Date;
-  // gigTotalPrice = 250;
-
-  // gigRef: AngularFirestoreCollection<Gigs>;
-  // Gigs$: Observable<Gigs[]>;
+  selector: 'date-pipe';
 
   constructor(private Gigservice: GigService,
               private db: AngularFirestore,
               private dialog: MatDialog) { }
 
-  
+
 
   ngOnInit() {
-
-  // this.gigRef = this.db.collection('Gigs');
-  // this.Gigs$ = this.gigRef.valueChanges();
-
-
-  //this.Gigservice.fetchGigs();
-  // console.log(this.Gigservice.fetchGigs());
 
 
   this.gigObservible = this.db.collection('gigs')
@@ -65,14 +52,13 @@ export class AlertButtonComponent implements OnInit {
 
   }));
 
-
+  
   // this.gigObservible.subscribe( result => { console.log('Rusult Object from datastore ' + result); });
 
   }
 
   signUp(gig: Gigs) {
 
-  //  this.totalPunterIncrement(gig);
     this.dialog.open(GigDetailsComponent);
 
   }
@@ -127,10 +113,4 @@ export class AlertButtonComponent implements OnInit {
       this.db.collection('gigs').add(addGig);
     }
 
-  //  private updateDataToDatabase(updateGig: Gigs, fieldToUpdate: string, valueToUpdate: any ) {
-  //     this.db.collection('gigs')
-  //         .doc(updateGig.id)
-  //         .set({ fieldToUpdate: valueToUpdate }, { merge: true });
-
-  //  }
 }
