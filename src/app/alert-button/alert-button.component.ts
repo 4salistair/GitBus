@@ -20,7 +20,7 @@ export class AlertButtonComponent implements OnInit {
  private gigObservible: Observable<Gigs[]>;
 
   totalVote = 0;
-  totalrunningPrice = 0;
+  totalrunningPrice = 10;
 
   thisGig: Gigs;
   fieldToUpdateAndValue: JSON;
@@ -52,7 +52,7 @@ export class AlertButtonComponent implements OnInit {
 
   }));
 
-  
+
   // this.gigObservible.subscribe( result => { console.log('Rusult Object from datastore ' + result); });
 
   }

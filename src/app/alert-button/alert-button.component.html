@@ -18,12 +18,18 @@
         <mat-card-subtitle> {{ gig.gigVenueName}} </mat-card-subtitle>
         <mat-card-subtitle> {{ gig.gigDate.toMillis()  | date: 'medium'}} </mat-card-subtitle>   
       </mat-card-header>
-      'medium'
+    
       <mat-card-content>
-        <P>Please click to get on the bus. <br><br>
-        <button button (click)="totalPunterIncrement(gig)" mat-raised-button> Get On It </button>
-        <br><br> The number of people currently on the bus is {{ gig.gigPunterCount }} 
-        <br> <br> The cost per person is {{ gig.gigPunterCount / totalrunningPrice }}
+        <br><br> The number of people currently going from your town via gigBus is {{ gig.gigPunterCount }}. 
+        This means transport costs per person are currently £{{ (totalrunningPrice / gig.gigPunterCount) | number:'1.2-2' }}. 
+        If a futher {{ 8 - gig.gigPunterCount }} join us and we fill the bus the cost would be £{{ (gig.gigPunterCount / 8) | number:'1.2-2' }}
+        <P>Don't miss this... <br> <br>
+
+        <button button (click)="totalPunterIncrement(gig)" mat-raised-button> Click here </button>
+        
+       
+
+    
       </mat-card-content>
   
 
