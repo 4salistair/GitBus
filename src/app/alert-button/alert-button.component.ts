@@ -60,7 +60,13 @@ export class AlertButtonComponent implements OnInit {
 
   signUp(gig: Gigs) {
 
-    this.dialog.open(GigDetailsComponent);
+    this.dialog.open(GigDetailsComponent, {
+      data: {
+        gigArtistName: gig.gigArtistName,
+        gigVenueName: gig.gigVenueName,
+        gigDate: gig.gigDate
+      }
+    } );
 
   }
 

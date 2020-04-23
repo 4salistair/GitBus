@@ -13,9 +13,9 @@
   </mat-step>
   
   <mat-step label = 'Gig Info'> 
-   Okay so you up for ** Artist *** on ** Date ** great choice!
+   Okay so you up for {{passData.gigArtistName}} at {{ passData.gigVenueName}} on {{ passData.gigDate.toMillis()   | date: 'medium' }} great choice!
    The bus sets of at ** Time ** returns (if you miss it tuf shit)
-   Share this as widely as you can to get the price down.
+   Share this as widely as you can to get the price down. 
   </mat-step>
    <mat-step label = 'Sign Up'> 
 

@@ -13,14 +13,11 @@ export class GigDetailsComponent  {
   //   throw new Error("Method not implemented.");
   // }
 
-
+  constructor(@Inject(MAT_DIALOG_DATA) public passData: any) { }
 // constructor(private _formBuilder: FormBuilder) {}
 
   // ngOnInit(): void {
   //   throw new Error("Method not implemented.");
   // }
-
-constructor() { }
-
 }
 
