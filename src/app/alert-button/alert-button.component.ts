@@ -9,6 +9,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { MatDialog } from '@angular/material';
 import { GigDetailsComponent } from '../gig-details/gig-details.component';
 
+
 @Component({
   selector: 'app-alert-button',
   templateUrl: './alert-button.component.html',
