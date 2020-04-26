@@ -5,7 +5,8 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AlertButtonComponent } from './alert-button/alert-button.component';
+import { GigCardsComponent } from './gig-cards/gig-cards.component';
+import { LoginComponent } from './auth/login/login.component';
 import { GigService } from './gigService';
 
 import { AngularFireModule } from '@angular/fire';
@@ -26,8 +27,9 @@ import { environment } from 'src/environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
-    AlertButtonComponent,
+    GigCardsComponent,
     GigDetailsComponent,
+    LoginComponent
   ],
   imports: [
 

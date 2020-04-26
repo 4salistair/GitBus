@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AlertButtonComponent } from './alert-button/alert-button.component';
+import { GigCardsComponent } from './gig-cards/gig-cards.component';
+
 
 const routes: Routes = [
 
-  { path: '', component: AlertButtonComponent },
+  { path: '', component: GigCardsComponent },
+
 ];
 
 @NgModule({

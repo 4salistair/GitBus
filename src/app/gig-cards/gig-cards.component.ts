@@ -11,12 +11,17 @@ import { GigDetailsComponent } from '../gig-details/gig-details.component';
 
 
 @Component({
-  selector: 'app-alert-button',
-  templateUrl: './alert-button.component.html',
-  styleUrls: ['./alert-button.component.css']
+  // selector: 'app-alert-button',
+  // templateUrl: './alert-button.component.html',
+  // styleUrls: ['./alert-button.component.css']
+
+  selector: 'app-gig-cards',
+  templateUrl: './gig-cards.component.html',
+  styleUrls: ['./gig-cards.component.css']
+
 })
 
-export class AlertButtonComponent implements OnInit {
+export class GigCardsComponent implements OnInit {
 
  private gigObservible: Observable<Gigs[]>;
 

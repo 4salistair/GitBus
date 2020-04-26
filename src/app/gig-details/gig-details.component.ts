@@ -14,10 +14,6 @@ export class GigDetailsComponent  {
   // }
 
   constructor(@Inject(MAT_DIALOG_DATA) public passData: any) { }
-// constructor(private _formBuilder: FormBuilder) {}
 
-  // ngOnInit(): void {
-  //   throw new Error("Method not implemented.");
-  // }
 }
 
