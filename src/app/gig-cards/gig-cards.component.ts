@@ -1,38 +1,36 @@
-import { Component, Inject, OnInit, OnChanges, Input } from '@angular/core';
+import { Component,  OnInit, OnDestroy } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { Gigs } from '../gigModel';
 import { GigService } from '../gigService';
 import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, Subscription} from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material';
 import { GigDetailsComponent } from '../gig-details/gig-details.component';
 
 
 @Component({
-  // selector: 'app-alert-button',
-  // templateUrl: './alert-button.component.html',
-  // styleUrls: ['./alert-button.component.css']
-
   selector: 'app-gig-cards',
   templateUrl: './gig-cards.component.html',
   styleUrls: ['./gig-cards.component.css']
 
 })
 
-export class GigCardsComponent implements OnInit {
+export class GigCardsComponent implements OnInit, OnDestroy {
 
- private gigObservible: Observable<Gigs[]>;
+private gigObservible: Observable<Gigs[]>;
+ 
 
   totalVote = 0;
   totalrunningPrice = 10;
 
-  thisGig: Gigs;
+  gigs: Gigs[];
+  gigSubscription: Subscription;
   fieldToUpdateAndValue: JSON;
   selector: 'date-pipe';
 
-  constructor(private Gigservice: GigService,
+  constructor(private gigService: GigService,
               private db: AngularFirestore,
               private dialog: MatDialog) { }
 
@@ -40,28 +38,14 @@ export class GigCardsComponent implements OnInit {
 
   ngOnInit() {
 
+    this.gigSubscription = this.gigService.gigsChanged.subscribe(
+      gigs => (this.gigs = gigs)
+    );
+    this.gigService.fetchGigs();
 
-  this.gigObservible = this.db.collection('gigs')
-  .snapshotChanges()
-  .pipe(map( docArray => {
-      return docArray.map( doc => {
-      return {
-        id: doc.payload.doc.id,
-        gigArtistName: doc.payload.doc.data()['gigArtistName'],
-        gigDescription: doc.payload.doc.data()['gigDescription'],
-        gigVenueName: doc.payload.doc.data()['gigVenueName'],
-        gigDate: doc.payload.doc.data()['gigDate'],
-        gigTotalPrice: doc.payload.doc.data()['gigTotalPrice'],
-        gigPunterCount: doc.payload.doc.data()['gigPunterCount']
-      };
-    });
-
-  }));
-
-
-  // this.gigObservible.subscribe( result => { console.log('Rusult Object from datastore ' + result); });
 
   }
+
 
   signUp(gig: Gigs) {
 
@@ -94,7 +78,7 @@ export class GigCardsComponent implements OnInit {
   Reset() {
     console.log('Reset');
     this.totalVote = 0;
-    this.thisGig.gigTotalPrice = 0;
+   // this.thisGig.gigTotalPrice = 0;
     this.totalrunningPrice = 0;
 
   }
@@ -124,5 +108,11 @@ export class GigCardsComponent implements OnInit {
     private addDataToDatabase(addGig: any) {
       this.db.collection('gigs').add(addGig);
     }
+
+    ngOnDestroy() {
+
+    this.gigSubscription.unsubscribe();
+
+  }
 
 }

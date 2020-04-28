@@ -16,35 +16,33 @@ export class GigService {
   private availableGigs: Gigs[] = [];
   gigsChanged = new Subject<Gigs[]>();
 
-  constructor(private db: AngularFirestore,
-              ) { }
 
+  constructor(private db: AngularFirestore) { }
 
-
-fetchGigs() {
-this.fbSubs.push(this.db
+  fetchGigs() {
+       this.db
        .collection('gigs')
        .snapshotChanges()
        .pipe(map(docData => {
-
         return docData.map(doc => {
          return {
-             id: doc.payload.doc.id,
-//              name: doc.payload.doc.data()['gigTotalPrice'],
-//           duration: doc.payload.doc.data()['duration'],
-//           calories: doc.payload.doc.data()['calories'],
-          };
-     });
-   })
-    )
-    .subscribe((Gig: Gigs[]) => {
-      this.availableGigs =  Gig;
-      this.gigsChanged.next([...this.availableGigs]);
-      // gigschanged.next([...this.availableExercises]);
-     }, error => {
-       console.log('Fetching Gigs Failed');
- //     this.uiservice.showSnackbar('Fetching Gigs Failed', null, 3000);
-       }));
-      }
-    }
+            id: doc.payload.doc.id,
+            gigArtistName: doc.payload.doc.data()['gigArtistName'],
+            gigDescription: doc.payload.doc.data()['gigDescription'],
+            gigVenueName: doc.payload.doc.data()['gigVenueName'],
+            gigDate: doc.payload.doc.data()['gigDate'],
+            gigTotalPrice: doc.payload.doc.data()['gigTotalPrice'],
+            gigPunterCount: doc.payload.doc.data()['gigPunterCount']
+            };
+          });
+        })
+        )
+        .subscribe((Gig: Gigs[]) => {
+        this.availableGigs =  Gig;
+        this.gigsChanged.next([...this.availableGigs]);
+        });
+
+  }
+
+}
 

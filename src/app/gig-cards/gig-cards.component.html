@@ -1,43 +1,30 @@
-
-<!-- <ul>
-  <li *ngFor = 'Let gigz of Gigs$ | async'>
-    {{gigz.id}}
-  </li>
-</ul> -->
-
-
 <div fxLayout="column" fxLayoutAlign="space-around center">
 
-<div class="cardFormat" *ngFor="let gig of gigObservible | async">
-
-<mat-card class="example-card" >
-  
-      <mat-card-header> 
-        <mat-card-title>    {{ gig.gigArtistName }} </mat-card-title>
-        <mat-card-subtitle> {{ gig.gigDescription }} </mat-card-subtitle>
-        <mat-card-subtitle> {{ gig.gigVenueName}} </mat-card-subtitle>
-        <mat-card-subtitle> {{ gig.gigDate.toMillis()  | date: 'medium'}} </mat-card-subtitle>   
-      </mat-card-header>
+<div class="cardFormat" *ngFor="let gig of gigs">
+  <mat-card>
+    <mat-card-header> 
+      <mat-card-title>    {{ gig.gigArtistName }} </mat-card-title>
+      <mat-card-subtitle> {{ gig.gigDescription }} </mat-card-subtitle>
+      <mat-card-subtitle> {{ gig.gigVenueName}} </mat-card-subtitle>
+      <mat-card-subtitle> {{ gig.gigDate }} </mat-card-subtitle> 
+          <!--?? .toMillis()  | date: 'medium' -->
+    </mat-card-header>
     
-      <mat-card-content>
-        <br><br> The number of people currently going from your town via gigBus is {{ gig.gigPunterCount }}. 
+    <mat-card-content>
+      <br><br> The number of people currently going from your town via gigBus is {{ gig.gigPunterCount }}. 
         This means transport costs per person are currently £{{ (totalrunningPrice / gig.gigPunterCount) | number:'1.2-2' }}. 
         If a futher {{ 8 - gig.gigPunterCount }} join us and we fill the bus the cost would be £{{ (gig.gigPunterCount / 8) | number:'1.2-2' }}
-        <P>Don't miss this... <br> <br>
+      <P>Don't miss this...<br> <br>
 
-        <button button (click)="totalPunterIncrement(gig)" mat-raised-button> Click here </button>
-        
-       
-
-    
-      </mat-card-content>
+      <button button (click)="totalPunterIncrement(gig)" mat-raised-button> Click here </button>
+    </mat-card-content>
   
 
-  <mat-card-actions>
+    <mat-card-actions>
       <button mat-button>LIKE</button>
       <button mat-button>SHARE</button>
-  </mat-card-actions>
-</mat-card>
+    </mat-card-actions>
+  </mat-card>
 <br>
 <br>
 </div>

@@ -1,8 +1,11 @@
 import { Component, Inject, OnInit, OnChanges, Input } from '@angular/core';
+import { GigService } from '../gigService';
+import { Subscription } from 'rxjs';
+import { Gigs } from '../gigModel';
+
 import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms/src/directives/ng_form';
-import { Gigs } from '../gigModel';
-import { GigService } from '../gigService';
+
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
@@ -18,12 +21,23 @@ import { GigDetailsComponent } from '../gig-details/gig-details.component';
 
 })
 
+
+
 export class GigAddComponent implements OnInit {
 
-    ngOnInit() {
+  private allGigs: Subscription;
+  private availableGigs: Gigs[] = [];
+ 
 
+  constructor(private gigService: GigService)  { }
 
-    }
+  ngOnInit() {
+
+    this.allGigs = this.gigService.gigsChanged.subscribe(
+      availableGigs => ( this.availableGigs = availableGigs ));
+    console.log(this.availableGigs);
+  }
+
 
 //  private gigObservible: Observable<Gigs[]>;
 
