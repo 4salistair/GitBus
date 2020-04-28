@@ -34,8 +34,6 @@ private gigObservible: Observable<Gigs[]>;
               private db: AngularFirestore,
               private dialog: MatDialog) { }
 
-
-
   ngOnInit() {
 
     this.gigSubscription = this.gigService.gigsChanged.subscribe(

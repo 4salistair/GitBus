@@ -1,6 +1,39 @@
 
  <!-- <app-gig-cards></app-gig-cards> -->
 
-<app-gig-add></app-gig-add>
-<router-outlet></router-outlet>
+<!-- <app-gig-add></app-gig-add> -->
+
+
+<mat-sidenav-container>
+
+    <mat-sidenav #sidenav role="navigation">
+       <p>I am the side nav</p> 
+    </mat-sidenav>
+    
+    <mat-sidenav-content>
+        <mat-toolbar color="primary">
+        <div> <button mat-icon-button (click)="sidenav.toggle()"> 
+            <mat-icon>menu</mat-icon>
+             </button>
+         </div>
+        Gig Bus
+        <div fxFlex fxLayout fxLayoutAlign="flex-end" > 
+        <ul fxLayout fxLayoutGap="20px" class="navigation-items">
+          <li> <a routerLink='/login'> Log In </a></li>
+          <li> <a routerLink='/signup'> Sign Up </a></li>
+        </ul>
+        </div> 
+    </mat-toolbar>    
+
+            <main>          
+                <router-outlet></router-outlet>
+            </main>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+    
+   
+
+
+
+
 

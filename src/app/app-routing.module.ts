@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { GigCardsComponent } from './gig-cards/gig-cards.component';
-
+import { GigAddComponent } from './gig-add/gig-add.component';
 
 const routes: Routes = [
 
   { path: '', component: GigCardsComponent },
-
+  { path: '', component: GigAddComponent },
 ];
 
 @NgModule({
