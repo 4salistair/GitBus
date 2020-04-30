@@ -35,7 +35,6 @@ export class AuthService {
 
         login(authData: AuthData ) {
 
-    
             this.afauth.auth.signInWithEmailAndPassword(
             authData.email,
             authData.password)
