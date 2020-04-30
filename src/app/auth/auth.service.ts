@@ -15,7 +15,9 @@ export class AuthService {
 
      constructor( private router: Router, private afauth: AngularFireAuth) {}
 
-    innitAuthListener() {
+
+
+     innitAuthListener() {
         this.afauth.authState.subscribe(user => {
             if (user) {
                // this.isAuthenticated = true;

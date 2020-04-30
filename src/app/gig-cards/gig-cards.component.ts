@@ -8,7 +8,7 @@ import { Observable, Subscription} from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material';
 import { GigDetailsComponent } from '../gig-details/gig-details.component';
-
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-gig-cards',
@@ -17,10 +17,13 @@ import { GigDetailsComponent } from '../gig-details/gig-details.component';
 
 })
 
+
+
 export class GigCardsComponent implements OnInit, OnDestroy {
 
-private gigObservible: Observable<Gigs[]>;
 
+
+private gigObservible: Observable<Gigs[]>;
 
   totalVote = 0;
   totalrunningPrice = 10;
@@ -30,9 +33,15 @@ private gigObservible: Observable<Gigs[]>;
   fieldToUpdateAndValue: JSON;
   selector: 'date-pipe';
 
+  private isAuth = false;
+  AuthCarry: boolean;
+
+  authSubscription: Subscription;
+
   constructor(private gigService: GigService,
               private db: AngularFirestore,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private authServices: AuthService) { }
 
   ngOnInit() {
 
@@ -41,7 +50,21 @@ private gigObservible: Observable<Gigs[]>;
     );
     this.gigService.fetchGigs();
 
+    this.authServices.innitAuthListener();
+    this.authSubscription = this.authServices.authChange.subscribe(
+      authStatus => { (
+                this.isAuth = authStatus);
 
+    });
+
+    // this.authSubscription = this.authServices.authChange.subscribe(authStatus => {
+    // this.isAuth = authStatus;
+    // console.log('authStatus =', authStatus);
+    // console.log('is auth   = ' +  );
+    // });
+  
+    // // this.isAuth = this.authServices.isAuth();
+    // console.log('is auth  2 ' + this.isAuth);
   }
 
 
@@ -110,6 +133,7 @@ private gigObservible: Observable<Gigs[]>;
     ngOnDestroy() {
 
     this.gigSubscription.unsubscribe();
+    this.authSubscription.unsubscribe();
 
   }
 
