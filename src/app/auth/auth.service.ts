@@ -32,36 +32,36 @@ export class AuthService {
         }
 
 
-        // this.user = {
 
-        //     userTelNo: authData.telNo,
-        //     userID: Math.round(Math.random() * 1000).toString()
-        //     // this.router.navigator(['/gigs']);
-       // };
+        login(authData: AuthData ) {
 
-    login(authData: AuthData ) {
+    
+            this.afauth.auth.signInWithEmailAndPassword(
+            authData.email,
+            authData.password)
+            .then(result => {
+                console.log(result);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        }
 
-        // this.user = {
 
-        //     userEmail: authData.email,
-        //     userID: Math.round(Math.random() * 1000).toString()
-        // };
 
-       
+    // }
 
-    }
+    // logout() {
 
-    logout() {
+    //     this.user = null;
+    //     this.authChange.next(false);
+    // }
 
-        this.user = null;
-        this.authChange.next(false);
-    }
+    // getUser() {
+    //     return {...this.user};
+    // }
 
-    getUser() {
-        return {...this.user};
-    }
-
-    isAuth() {
-        return this.user != null;
-    }
+    // isAuth() {
+    //     return this.user != null;
+    // }
 }
