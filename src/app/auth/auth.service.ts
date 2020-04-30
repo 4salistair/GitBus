@@ -15,52 +15,66 @@ export class AuthService {
 
      constructor( private router: Router, private afauth: AngularFireAuth) {}
 
-     registerUser(authData: AuthData  ) {
+    innitAuthListener() {
+        this.afauth.authState.subscribe(user => {
+            if (user) {
+               // this.isAuthenticated = true;
+                this.authChange.next(true);
+                this.router.navigate(['/']);
+            } else {
+             //   this.trainingService.cancelSubscriptions();
+                this.authChange.next(false);
+                this.router.navigate(['']);
+              //  this.isAuthenticated = false;
+            }
+        });
+    }
 
-           this.afauth.auth.createUserWithEmailAndPassword(
-             authData.email,
-             authData.password)
-             .then(result => {
-                 console.log(result);
-             })
-             .catch(error => {
-             console.log(error);
-             });
+    registerUser(authData: AuthData  ) {
 
-           this.router.navigate(['/']);
-           this.authChange.next(true);
-        }
-
-
-
-        login(authData: AuthData ) {
-
-            this.afauth.auth.signInWithEmailAndPassword(
-            authData.email,
-            authData.password)
-            .then(result => {
-                console.log(result);
+        this.afauth.auth.createUserWithEmailAndPassword(
+        authData.email,
+        authData.password)
+        .then(result => {
+            console.log(result);
+            this.router.navigate(['/']);
+            this.authChange.next(true);
             })
-            .catch(error => {
-                console.log(error);
+        .catch(error => {
+            console.log(error);
             });
-        }
+
+    }
 
 
 
-    // }
+    login(authData: AuthData ) {
 
-    // logout() {
+        this.afauth.auth.signInWithEmailAndPassword(
+        authData.email,
+        authData.password)
+        .then(result => {
+            console.log(result);
+            this.router.navigate(['/']);
+            this.authChange.next(true);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
 
-    //     this.user = null;
-    //     this.authChange.next(false);
-    // }
 
-    // getUser() {
-    //     return {...this.user};
-    // }
+    logout() {
+    this.afauth.auth.signOut();
+    this.user = null;
+    this.authChange.next(false);
+    }
 
-    // isAuth() {
-    //     return this.user != null;
-    // }
+    getUser() {
+        return {...this.user};
+    }
+
+    isAuth() {
+        return this.user != null;
+    }
 }
