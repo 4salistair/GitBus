@@ -1,5 +1,5 @@
 export interface AuthData {
 
-telNo: string;
+email: string;
 password: string;
 }

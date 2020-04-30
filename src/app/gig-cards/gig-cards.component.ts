@@ -20,7 +20,7 @@ import { GigDetailsComponent } from '../gig-details/gig-details.component';
 export class GigCardsComponent implements OnInit, OnDestroy {
 
 private gigObservible: Observable<Gigs[]>;
- 
+
 
   totalVote = 0;
   totalrunningPrice = 10;

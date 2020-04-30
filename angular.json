@@ -23,8 +23,10 @@
               "src/assets"
             ],
             "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.css"
+              {
+             "input": "src/grey-theme.scss"
+              } //,
+            // "src/styles.css"
             ],
             "scripts": [],
             "es5BrowserSupport": true

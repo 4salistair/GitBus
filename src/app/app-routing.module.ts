@@ -2,11 +2,17 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { GigCardsComponent } from './gig-cards/gig-cards.component';
 import { GigAddComponent } from './gig-add/gig-add.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent} from './auth/signup/signup.component';
+
 
 const routes: Routes = [
 
   { path: '', component: GigCardsComponent },
-  { path: '', component: GigAddComponent },
+  { path: 'addgigs', component: GigAddComponent},
+  { path: 'login', component: LoginComponent},
+  { path: 'signup', component: SignupComponent},
+
 ];
 
 @NgModule({

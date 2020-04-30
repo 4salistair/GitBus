@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,7 +18,11 @@ import { GigService } from './gigService';
 import { GigCardsComponent } from './gig-cards/gig-cards.component';
 import { LoginComponent } from './auth/login/login.component';
 import { GigAddComponent} from './gig-add/gig-add.component';
+import { SignupComponent} from './auth/signup/signup.component';
+import { AuthService } from './auth/auth.service';
 
+import { HeaderComponent } from './navigation/header/header.component';
+import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +30,11 @@ import { GigAddComponent} from './gig-add/gig-add.component';
     GigCardsComponent,
     GigDetailsComponent,
     GigAddComponent,
-    LoginComponent
+    LoginComponent,
+    SignupComponent,
+    HeaderComponent,
+    SidenavListComponent
+
   ],
   imports: [
 
@@ -39,9 +48,10 @@ import { GigAddComponent} from './gig-add/gig-add.component';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     AngularFireAuthModule,
+
   ],
 
-  providers: [GigService, { provide: MaterialModule, useValue: [] }],
+  providers: [AuthService, GigService, { provide: MaterialModule, useValue: [] }],
   bootstrap: [AppComponent],
   entryComponents: [GigDetailsComponent]
 
