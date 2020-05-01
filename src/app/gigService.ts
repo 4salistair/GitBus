@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { map } from 'rxjs/operators';
 import { Subscription} from 'rxjs';
 import { Gigs } from './gigModel';
+import { User } from './auth/user.model';
 
 
 @Injectable({
@@ -42,6 +43,20 @@ export class GigService {
         this.gigsChanged.next([...this.availableGigs]);
         });
 
+  }
+
+  registerForGig(userID: string, gigID: string ) {
+
+  this.db.collection('gigs').doc(gigID).collection('interestedUsers').add({userID});
+  //   const setWithMerge = gigRef.set({ userID }
+  // , { merge: true });
+
+  //   this.db.collection('gigs').add(setWithMerge);
+
+  }
+
+  addGig(gig: Gigs) {
+    this.db.collection('gigs').add(gig);
   }
 
 }

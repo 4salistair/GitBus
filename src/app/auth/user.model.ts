@@ -1,5 +1,5 @@
 export interface User {
 userID: string;
-userTelNo: string;
-
+userTelNo?: string;
+userEmail?: string;
 }

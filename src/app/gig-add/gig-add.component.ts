@@ -27,10 +27,9 @@ export class GigAddComponent implements OnInit {
 
   private allGigs: Subscription;
   private availableGigs: Gigs[] = [];
- 
+  private  gigMapArray: Gigs;
 
   constructor(private gigService: GigService)  { }
-
   ngOnInit() {
 
     this.allGigs = this.gigService.gigsChanged.subscribe(
@@ -39,6 +38,20 @@ export class GigAddComponent implements OnInit {
   }
 
 
+  onSubmit(form: NgForm) {
+   this.gigMapArray = {
+
+            gigArtistName: form.value.gigArtistName,
+            gigDate: form.value.gigDate,
+            gigDescription: form.value.gigDescription,
+            gigVenueName: form.value.gigVenueName,
+            gigTotalPrice: form.value.gigTotalPrice,
+
+            };
+
+   this.gigService.addGig(this.gigMapArray);
+
+  }
 //  private gigObservible: Observable<Gigs[]>;
 
 //   totalVote = 0;
@@ -48,9 +61,9 @@ export class GigAddComponent implements OnInit {
 //   fieldToUpdateAndValue: JSON;
 //   selector: 'date-pipe';
 
-//   constructor(private Gigservice: GigService,
-//               private db: AngularFirestore,
-//               private dialog: MatDialog) { }
+// constructor(private Gigservice: GigService,
+//             private db: AngularFirestore,
+//           private dialog: MatDialog) { }
 
 
 // Reset() {
@@ -83,8 +96,8 @@ export class GigAddComponent implements OnInit {
 //       this.addDataToDatabase(runningGig);
 //     }
 
-//     private addDataToDatabase(addGig: any) {
-//       this.db.collection('gigs').add(addGig);
-//     }
+    // private addDataToDatabase(addGig: any) {
+    //   this.db.collection('gigs').add(addGig);
+    // }
 
 }

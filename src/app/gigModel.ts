@@ -1,10 +1,10 @@
 export interface Gigs {
 
-    id: string;
+    id?: string;
     gigDescription: string;
     gigVenueName: string;
     gigArtistName: string;
     gigDate: Date;
     gigTotalPrice: number;
-    gigPunterCount: number;
+    gigPunterCount?: number;
 }

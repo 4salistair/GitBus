@@ -35,8 +35,10 @@ private gigObservible: Observable<Gigs[]>;
 
   private isAuth = false;
   AuthCarry: boolean;
+  userID: string;
 
   authSubscription: Subscription;
+  currentuserSubscription: Subscription;
 
   constructor(private gigService: GigService,
               private db: AngularFirestore,
@@ -81,6 +83,15 @@ private gigObservible: Observable<Gigs[]>;
   }
 
 
+  addPunter(gig: Gigs) {
+    this.authServices.getUserID();
+
+    this.authSubscription = this.authServices.currentUser.subscribe(
+      userID => { (this.userID = userID);
+                  this.gigService.registerForGig(userID, gig.id );
+
+      });
+  }
   totalPunterIncrement(gig: Gigs) {
 
     const punterCount = gig.gigPunterCount ++;
@@ -103,6 +114,7 @@ private gigObservible: Observable<Gigs[]>;
     this.totalrunningPrice = 0;
 
   }
+
 
 
     onSubmit(form: NgForm) {

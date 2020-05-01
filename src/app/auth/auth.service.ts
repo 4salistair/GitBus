@@ -11,7 +11,9 @@ import { AngularFireAuth } from '@angular/fire/auth';
 export class AuthService {
 
     authChange = new Subject<boolean>();
+    currentUser = new Subject<string>();
     private user: User;
+    private  currentUserDetails: string;
 
      constructor( private router: Router, private afauth: AngularFireAuth) {}
 
@@ -79,4 +81,14 @@ export class AuthService {
     isAuth() {
         return this.user != null;
     }
+
+    getUserID() {
+
+        this.afauth.idToken.subscribe(user => {
+            this.currentUser.next(user);
+        });
+
+    }
+
+
 }

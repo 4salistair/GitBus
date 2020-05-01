@@ -22,7 +22,7 @@
     <mat-card-actions>
     
       <button button (click)="totalPunterIncrement(gig)" mat-raised-button *ngIf="!isAuth"> SIGN UP </button>
-      <button mat-button  mat-raised-button *ngIf="isAuth">LIKE</button>
+      <button mat-button  mat-raised-button *ngIf="isAuth" (click)="addPunter(gig)">LIKE</button>
       <button mat-button  mat-raised-button *ngIf="isAuth">SHARE</button>
     </mat-card-actions>
   </mat-card>
