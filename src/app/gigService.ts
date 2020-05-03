@@ -30,27 +30,9 @@ export class GigService {
 
   id: string;
 
-/////?
-items$: Observable<Gigs[]>;
-locationFilter$: BehaviorSubject<string|null>; // size
-/////?
-  constructor(private db: AngularFirestore)
-  /////?
-  {
-    this.locationFilter$ = new BehaviorSubject(null);
-    this.items$ = Observable.combineLatest(
-    this.locationFilter$
-    )
-    .switchMap(([location]) =>
-    db.collection<Gigs>('Location', ref => {
-      let query: firebase.firestore.Query = ref;
-      if (location) { query = query.where('gigVenueName', '==', location); }
-      return query;
-    }).valueChanges()
-    );
 
-  }
-  /////?
+  constructor(private db: AngularFirestore) { }
+
   fetchGigs() {
        this.db
        .collection('gigs')
