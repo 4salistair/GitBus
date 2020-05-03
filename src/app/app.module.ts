@@ -10,17 +10,19 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { GigDetailsComponent } from './gig-details/gig-details.component';
 import { environment } from 'src/environments/environment';
 
 import { AppComponent } from './app.component';
-import { GigService } from './gigService';
+
+import { GigMineComponent } from './gig-mine/gig-mine.component';
 import { GigCardsComponent } from './gig-cards/gig-cards.component';
 import { LoginComponent } from './auth/login/login.component';
 import { GigAddComponent} from './gig-add/gig-add.component';
 import { SignupComponent} from './auth/signup/signup.component';
-import { AuthService } from './auth/auth.service';
+import { GigDetailsComponent } from './gig-details/gig-details.component';
 
+import { AuthService } from './auth/auth.service';
+import { GigService } from './gigService';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 
@@ -33,7 +35,8 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
     LoginComponent,
     SignupComponent,
     HeaderComponent,
-    SidenavListComponent
+    SidenavListComponent,
+    GigMineComponent
 
   ],
   imports: [

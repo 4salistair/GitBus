@@ -10,6 +10,9 @@ import { MatDialog } from '@angular/material';
 import { GigDetailsComponent } from '../gig-details/gig-details.component';
 import { AuthService } from 'src/app/auth/auth.service';
 
+
+
+
 @Component({
   selector: 'app-gig-cards',
   templateUrl: './gig-cards.component.html',
@@ -40,12 +43,14 @@ private gigObservible: Observable<Gigs[]>;
   authSubscription: Subscription;
   currentuserSubscription: Subscription;
 
+
   constructor(private gigService: GigService,
               private db: AngularFirestore,
               private dialog: MatDialog,
-              private authServices: AuthService) { }
+              private authServices: AuthService) {}
 
-  ngOnInit() {
+
+ngOnInit() {
 
     this.gigSubscription = this.gigService.gigsChanged.subscribe(
       gigs => (this.gigs = gigs)
@@ -56,17 +61,8 @@ private gigObservible: Observable<Gigs[]>;
     this.authSubscription = this.authServices.authChange.subscribe(
       authStatus => { (
                 this.isAuth = authStatus);
-
     });
 
-    // this.authSubscription = this.authServices.authChange.subscribe(authStatus => {
-    // this.isAuth = authStatus;
-    // console.log('authStatus =', authStatus);
-    // console.log('is auth   = ' +  );
-    // });
-  
-    // // this.isAuth = this.authServices.isAuth();
-    // console.log('is auth  2 ' + this.isAuth);
   }
 
 
@@ -141,6 +137,8 @@ private gigObservible: Observable<Gigs[]>;
     private addDataToDatabase(addGig: any) {
       this.db.collection('gigs').add(addGig);
     }
+
+
 
     ngOnDestroy() {
 

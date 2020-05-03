@@ -23,9 +23,18 @@
     
       <button button (click)="totalPunterIncrement(gig)" mat-raised-button *ngIf="!isAuth"> SIGN UP </button>
       <button mat-button  mat-raised-button *ngIf="isAuth" (click)="addPunter(gig)">LIKE</button>
-      <button mat-button  mat-raised-button *ngIf="isAuth">SHARE</button>
+      <button mat-button  mat-raised-button *ngIf="isAuth" (click)="">SHARE</button>
     </mat-card-actions>
   </mat-card>
 <br>
 <br>
 </div>
+
+<!-- <div *ngIf="gigs$ | async; let Gigs; else loading">
+  <ul>
+    <li *ngFor="let gig of Gigs">
+      {{  Gigs.gigVenueName }}
+    </li>
+  </ul>
+  <div *ngIf="Gigs.length === 0">No results, try clearing filters</div>
+</div> -->

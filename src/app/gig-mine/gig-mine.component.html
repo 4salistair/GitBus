@@ -1,0 +1,12 @@
+
+  <ul *ngFor="let gigsAndPunter of gigsAndPunters | async ">
+    <li >
+       {{  gigsAndPunter.id }}
+    </li>
+    <li >
+      {{  gigsAndPunter.gigID }}
+   </li>
+   <li >
+    {{  gigsAndPunter.userID }}
+ </li>
+  </ul>

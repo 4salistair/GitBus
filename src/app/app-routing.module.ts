@@ -4,13 +4,14 @@ import { GigCardsComponent } from './gig-cards/gig-cards.component';
 import { GigAddComponent } from './gig-add/gig-add.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent} from './auth/signup/signup.component';
-
+import { GigMineComponent} from './gig-mine/gig-mine.component';
 
 const routes: Routes = [
 
   { path: '', component: GigCardsComponent },
   { path: 'addgigs', component: GigAddComponent},
   { path: 'login', component: LoginComponent},
+  { path: 'mygigs', component: GigMineComponent},
   { path: 'signup', component: SignupComponent},
 
 ];
