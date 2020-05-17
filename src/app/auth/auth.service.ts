@@ -84,9 +84,15 @@ export class AuthService {
 
     getUserID() {
 
-        this.afauth.idToken.subscribe(user => {
-            this.currentUser.next(user);
-        });
+        // this.afauth.idToken.subscribe(user => {
+        //     this.currentUser.next(user);
+        // });
+
+         this.afauth.user.subscribe(user => {
+             this.currentUser.next(user.uid);
+         });
+
+      //   7q3AeEla9sgJLF7ASdJluBDGKif1
 
     }
 

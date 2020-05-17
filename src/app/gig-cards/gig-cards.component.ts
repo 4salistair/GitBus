@@ -58,6 +58,7 @@ ngOnInit() {
     this.gigService.fetchGigs();
 
     this.authServices.innitAuthListener();
+
     this.authSubscription = this.authServices.authChange.subscribe(
       authStatus => { (
                 this.isAuth = authStatus);
@@ -84,21 +85,45 @@ ngOnInit() {
 
     this.authSubscription = this.authServices.currentUser.subscribe(
       userID => { (this.userID = userID);
-                  this.gigService.registerForGig(userID, gig.id );
+                  this.gigService.registerForGig(userID.substring(0, 50), gig.id );
 
       });
   }
+
+
+  addPunterGig(gig: Gigs) {
+
+    {
+      this.authServices.getUserID();
+      this.totalPunterIncrement(gig);
+      this.gigService.puntersGigs(gig);
+
+    }
+  }
+
+
+
+
   totalPunterIncrement(gig: Gigs) {
 
+    // Not sure I need this!!!
+
+    // if (gig.gigPunterCount == NaN) {
+    //   gig.gigPunterCount = 0;
+    //   console.log('if null set to 0');
+    // }
+
     const punterCount = gig.gigPunterCount ++;
+
+
     console.log(punterCount);
 
     this.db.collection('gigs')
      .doc(gig.id)
      .set({ gigPunterCount: punterCount }, { merge: true });
 
-    console.log('delay ' + punterCount);
-    this.signUp(gig);
+   // console.log('delay ' + punterCount);
+   // this.signUp(gig);
 
   }
 
@@ -143,7 +168,7 @@ ngOnInit() {
     ngOnDestroy() {
 
     this.gigSubscription.unsubscribe();
-    this.authSubscription.unsubscribe();
+    // this.authSubscription.unsubscribe();
 
   }
 

@@ -11,8 +11,8 @@
     
     <mat-card-content>
       <br><br> The number of people currently going from your town via gigBus is {{ gig.gigPunterCount }}. 
-        This means transport costs per person are currently £{{ (totalrunningPrice / gig.gigPunterCount) | number:'1.2-2' }}. 
-        If a futher {{ 8 - gig.gigPunterCount }} join us and we fill the bus the cost would be £{{ (gig.gigPunterCount / 8) | number:'1.2-2' }}
+        This means transport costs per person are currently £{{ gig.gigRunningCostPerPunter  }}. 
+        If a futher {{ 8 - gig.gigPunterCount }} join us and we fill the bus the cost would be £{{ (gig.gigTotalPrice / 8) | number:'1.2-2' }}
       <P>Don't miss this...<br> <br>
 
    
@@ -23,7 +23,9 @@
     
       <button button (click)="totalPunterIncrement(gig)" mat-raised-button *ngIf="!isAuth"> SIGN UP </button>
       <button mat-button  mat-raised-button *ngIf="isAuth" (click)="addPunter(gig)">LIKE</button>
-      <button mat-button  mat-raised-button *ngIf="isAuth" (click)="">SHARE</button>
+      
+      <button mat-button  mat-raised-button *ngIf="isAuth" (click)="addPunterGig(gig)">LIKE TEST</button>
+      <button mat-button  mat-raised-button *ngIf="isAuth">SHARE</button>
     </mat-card-actions>
   </mat-card>
 <br>

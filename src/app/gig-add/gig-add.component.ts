@@ -45,6 +45,8 @@ export class GigAddComponent implements OnInit {
             gigDate: form.value.gigDate,
             gigDescription: form.value.gigDescription,
             gigVenueName: form.value.gigVenueName,
+            gigPunterCount: 0,
+            gigRunningCostPerPunter: form.value.gigTotalPrice,
             gigTotalPrice: form.value.gigTotalPrice,
 
             };

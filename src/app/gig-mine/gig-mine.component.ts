@@ -1,7 +1,11 @@
-import { Component, Inject, OnInit, OnChanges, Input } from '@angular/core';
+import { Component,  OnInit, OnDestroy } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { map } from 'rxjs/operators';
 import { Subscription, Observable} from 'rxjs';
+
+import { AuthService } from '../auth/auth.service';
+import { GigService } from '../gigService';
+import { Gigs } from '../gigModel';
 
 @Component({
 
@@ -11,58 +15,49 @@ import { Subscription, Observable} from 'rxjs';
 
   })
 
-  export class GigMineComponent implements OnInit {
+  export class GigMineComponent implements OnInit, OnDestroy {
+
+  constructor(
+               private db: AngularFirestore,
+               private authServices: AuthService,
+               private gigService: GigService )  { }
 
 
-  UserDetails: any[];
-  gigsAndPunters: Observable<any[]>;
+  // UserDetails: any[];
+  // gigsAndPunters: Observable<any[]>;
+  // gigsForAPunter: Observable<any[]>;
+  //  authSubscription: Subscription;
+  // gigsAndPuntersSub: Subscription;
+  // userID: string;
+  // gigID: any;
+  // count: number;
+  // gigs: Gigs[];
+  // gigIDArray = [];
+  // filteredGigs: Gigs;
 
-  constructor( private db: AngularFirestore)  { }
+  // private avalablefilteredGigs: Gigs[] = [];
+
+  // private userIDcarry: string;
+  
+   myGigSubscription: Subscription;
+   filteredGigs: Gigs[];
+    
 
     ngOnInit() {
 
-     const Events2 = this.db.collectionGroup('interestedUsers', ref => ref.where('userID', '==', '2'));
 
-     this.gigsAndPunters = Events2.snapshotChanges()
-     .pipe(map(docArray => {
-      return docArray.map(doc => {
-       return {
-         id: doc.payload.doc.id,
-         userID: doc.payload.doc.data()['UserID'],
-         gigID: doc.payload.doc.data()['gigID']
-     };
-    });
-  }));
+
+      this.myGigSubscription = this.gigService.filteredGigsChanged.subscribe(
+
+        filteredGigs => { this.filteredGigs = filteredGigs;
+        });
+      this.gigService.fetchGigsForCurrentUser();
 
     }
+
+    ngOnDestroy( ) {
+      this.myGigSubscription.unsubscribe();
+      // this.authSubscription.unsubscribe();
+    }
+
   }
-
-
-
-
-   // this.db.collection('gigs').valueChanges().subscribe(val => console.log(val));
-   //  const Events = this.db.collection('gigs', ref => ref.where('gigArtistName', '==', 'DJ'));
-
-   //  Events.valueChanges().subscribe(gigArray => console.log(gigArray));
-
-
-//     // const Events2 = this.db.collectionGroup collection('gigs/XjURUlZIm3rHv6nVE514/interestedUsers/', ref => ref.where('UserID', '==', '2'));
-//     // Events2.valueChanges().subscribe(gigArray => console.log(gigArray));
-
-//     const Events2 = this.db.collectionGroup('interestedUsers', ref => ref.where('UserID', '==', '2'));
-//     Events2.valueChanges().subscribe(gigArray => console.log(gigArray));
-
-   
-    
-//  //  const Events2 = this.db.firestore.collection('interestedUsers').where('UserID', '==', '2')
-//  //  Events2.onSnapshot valueChanges().subscribe(gigArray => console.log(gigArray));
- 
- 
-//  //   this.db.firestore.collectionGroup('interestedUsers').where('UserID', '==', '2').get()
-//  //  .then(queryDocumentSnapshot => {
-//  //   queryDocumentSnapshot. forEach(doc => {
-//  //      console.log(doc.id, ' => ', doc.data());
-//  //    });
- 
- 
-//    // });
