@@ -15,7 +15,8 @@ import { Observable } from 'rxjs/Observable';
 
 export class GigService {
 
-  private fbSubs: Subscription[] = [];
+  count: 0;
+
 
   private availableGigs: Gigs[] = [];
   gigsChanged = new Subject<Gigs[]>();
@@ -25,14 +26,13 @@ export class GigService {
 
   id: string;
 
-  //  ???
-  private gigsAndPunters: any[] = [];
   gigsAndPuntersChanged = new Subject<Gigs[]>();
 
   authSubscription: Subscription;
   userID: string;
   userIDcarry: string;
-  // ?? 
+
+  private runningGigs: Gigs;
 
   constructor(private db: AngularFirestore,
               private authServices: AuthService) { }
@@ -69,7 +69,7 @@ export class GigService {
 
     this.authSubscription = this.authServices.currentUser.subscribe(
        userID => {(userID = userID);
-                  this.userID = userID; //'7q3AeEla9sgJLF7ASdJluBDGKif1'
+                  this.userID = userID;
                   const filter = this.db.collection('puntersGigs', ref => ref.where('userid', '==', userID ));
 
                   filter
@@ -103,27 +103,32 @@ export class GigService {
     this.db.collection('gigs').add(gig);
   }
 
-  puntersGigs(gig: Gigs) {
-    this.authSubscription = this.authServices.currentUser.subscribe(
-      userID => { (this.userID = userID);
-                  this.db.collection('puntersGigs').add({
-                    ...gig,
-                    userid: userID});
-       });
+  puntersGigs(gigID: string) {
 
-    //    duration: this.runningExercise.duration * (progress / 100),
-    //    calories: this.runningExercise.calories * (progress / 100),
-    //    date: new Date(),
-    //    state: 'cancalled'});
-    //  this.runningExercise = null;
-    //  this.exerciseChanged.next(null);
+    this.runningGigs = this.availableGigs.find(
+       ex => ex.id === gigID
+    );
+
+    console.log('userID ' + this.userID);
+    this.db.collection('puntersGigs').add({
+                     ...this.runningGigs ,
+                    userid: this.userID});
+
   }
+
 
   myGig(currentUserID: string ) {
     currentUserID = 'eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg4ODQ4YjVhZmYyZDUyMDEzMzFhNTQ3ZDE5MDZlNWFhZGY2NTEzYzgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZ2lnYnVzLTRmMGI1IiwiYXVkIjoiZ2lnYnVzLTRmMGI1IiwiYXV0aF90aW1lIjoxNTg4MzE5NzM4LCJ1c2VyX2lkIjoiN3EzQWVFbGE5c2dKTEY3QVNkSmx1QkRHS2lmMSIsInN1YiI6IjdxM0FlRWxhOXNnSkxGN0FTZEpsdUJER0tpZjEiLCJpYXQiOjE1ODgzMTk3MzgsImV4cCI6MTU4ODMyMzMzOCwiZW1haWwiOiIxMjM0NUAxMjMuMTIzIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbIjEyMzQ1QDEyMy4xMjMiXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.d7JOqLvsRRTCIV05qOqIPwbceBBJagPkRfTY49Yy5i8wb3vK0JX_8GP3qdb8KhBuXxYyyOVEx-kVyKAfrweB994HH-C1rONrwE_giX7-shXh-nq49GNYHYbhtHB8lXe0Tev7pZ1P2hvEHFSJYWSgHfaMj4UsZl-t0ulcvCibz6L2RRTSMi9m0Xtq03Agw_zN0hiH9iOWJNt1Qr0ppCHqKqfbY3oclFYI-O4ND1Ys0cWPpbhlcgAk05TLjey5Z88ygW231foBZh08ikTCbIYJLk7tOF5a7I2Tcg6lQZkAH9JxxhbShN3nlMyvu8cGu2TxNSaq2utsROgmoZtuo913UA';
   }
 
+}
 
+   //    duration: this.runningExercise.duration * (progress / 100),
+    //    calories: this.runningExercise.calories * (progress / 100),
+    //    date: new Date(),
+    //    state: 'cancalled'});
+    //  this.runningExercise = null;
+    //  this.exerciseChanged.next(null);
 
 
   // filterByLocation(location: string|null) {
@@ -482,4 +487,52 @@ export class GigService {
 //    // });
  // }
 
-}
+ //  private gigObservible: Observable<Gigs[]>;
+
+//   totalVote = 0;
+//   totalrunningPrice = 10;
+
+//   thisGig: Gigs;
+//   fieldToUpdateAndValue: JSON;
+//   selector: 'date-pipe';
+
+// constructor(private Gigservice: GigService,
+//             private db: AngularFirestore,
+//           private dialog: MatDialog) { }
+
+
+// Reset() {
+//     console.log('Reset');
+//     this.totalVote = 0;
+//     this.thisGig.gigTotalPrice = 0;
+//     this.totalrunningPrice = 0;
+
+//   }
+
+
+//     onSubmit(form: NgForm) {
+
+//       console.log(form.value.gigDescription);
+//       console.log(form.value.gigVenueName);
+//       console.log(form.value.gigArtistName);
+//       console.log(form.value.gigDate);
+//       console.log(form.value.gigTotalPrice);
+
+//      // WORKS BUT CAN'T GET IT USE A GIG TYPE TO UP DATE
+
+//       const runningGig = {
+//         gigDescription: form.value.gigDescription,
+//         gigVenueName: form.value.gigVenueName,
+//         gigArtistName: form.value.gigArtistName,
+//         gigDate: form.value.gigDate,
+//         gigTotalPrice: form.value.gigTotalPrice,
+//         gigPunterCount: 0
+//       };
+//       this.addDataToDatabase(runningGig);
+//     }
+
+    // private addDataToDatabase(addGig: any) {
+    //   this.db.collection('gigs').add(addGig);
+    // }
+
+

@@ -54,52 +54,5 @@ export class GigAddComponent implements OnInit {
    this.gigService.addGig(this.gigMapArray);
 
   }
-//  private gigObservible: Observable<Gigs[]>;
-
-//   totalVote = 0;
-//   totalrunningPrice = 10;
-
-//   thisGig: Gigs;
-//   fieldToUpdateAndValue: JSON;
-//   selector: 'date-pipe';
-
-// constructor(private Gigservice: GigService,
-//             private db: AngularFirestore,
-//           private dialog: MatDialog) { }
-
-
-// Reset() {
-//     console.log('Reset');
-//     this.totalVote = 0;
-//     this.thisGig.gigTotalPrice = 0;
-//     this.totalrunningPrice = 0;
-
-//   }
-
-
-//     onSubmit(form: NgForm) {
-
-//       console.log(form.value.gigDescription);
-//       console.log(form.value.gigVenueName);
-//       console.log(form.value.gigArtistName);
-//       console.log(form.value.gigDate);
-//       console.log(form.value.gigTotalPrice);
-
-//      // WORKS BUT CAN'T GET IT USE A GIG TYPE TO UP DATE
-
-//       const runningGig = {
-//         gigDescription: form.value.gigDescription,
-//         gigVenueName: form.value.gigVenueName,
-//         gigArtistName: form.value.gigArtistName,
-//         gigDate: form.value.gigDate,
-//         gigTotalPrice: form.value.gigTotalPrice,
-//         gigPunterCount: 0
-//       };
-//       this.addDataToDatabase(runningGig);
-//     }
-
-    // private addDataToDatabase(addGig: any) {
-    //   this.db.collection('gigs').add(addGig);
-    // }
 
 }

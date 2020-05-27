@@ -91,14 +91,12 @@ ngOnInit() {
   }
 
 
-  addPunterGig(gig: Gigs) {
+  addPunterGig(gigID: string) {
+    
+      // this.authServices.getUserID();
+      //  this.totalPunterIncrement(gigID);
+      this.gigService.puntersGigs(gigID);
 
-    {
-      this.authServices.getUserID();
-      this.totalPunterIncrement(gig);
-      this.gigService.puntersGigs(gig);
-
-    }
   }
 
 
@@ -168,7 +166,7 @@ ngOnInit() {
     ngOnDestroy() {
 
     this.gigSubscription.unsubscribe();
-    // this.authSubscription.unsubscribe();
+    this.authSubscription.unsubscribe();
 
   }
 
