@@ -93,37 +93,38 @@ ngOnInit() {
 
   addPunterGig(gigID: string) {
     
-      // this.authServices.getUserID();
-      //  this.totalPunterIncrement(gigID);
+      ///this.authServices.getUserID();
+      this.gigService.totalPunterIncrement(gigID);
       this.gigService.puntersGigs(gigID);
+      this.gigService.runningCostDecrement(gigID);
 
   }
 
 
 
 
-  totalPunterIncrement(gig: Gigs) {
+  // totalPunterIncrement(gigID: string) {
 
-    // Not sure I need this!!!
+  //   // Not sure I need this!!!
 
-    // if (gig.gigPunterCount == NaN) {
-    //   gig.gigPunterCount = 0;
-    //   console.log('if null set to 0');
-    // }
+  //   // if (gig.gigPunterCount == NaN) {
+  //   //   gig.gigPunterCount = 0;
+  //   //   console.log('if null set to 0');
+  //   // }
 
-    const punterCount = gig.gigPunterCount ++;
+  //   const punterCount = gig.gigPunterCount ++;
 
 
-    console.log(punterCount);
+  //   console.log(punterCount);
 
-    this.db.collection('gigs')
-     .doc(gig.id)
-     .set({ gigPunterCount: punterCount }, { merge: true });
+  //   this.db.collection('gigs')
+  //    .doc(gig.id)
+  //    .set({ gigPunterCount: punterCount }, { merge: true });
 
-   // console.log('delay ' + punterCount);
-   // this.signUp(gig);
+  //  // console.log('delay ' + punterCount);
+  //  // this.signUp(gig);
 
-  }
+  // }
 
 
   Reset() {

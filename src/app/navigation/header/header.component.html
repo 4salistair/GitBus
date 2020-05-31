@@ -18,23 +18,23 @@
                     Login
                 </a>
             </li>
-            <li> <!-- *ngIf="isAuth"> -->
+            <li *ngIf="isAuth">
                 <a routerLink="/mygigs">
-                    MyGigs
+                    My Gigs
                 </a>
             </li>
 
-            <li> <!-- *ngIf="isAuth"> -->
+            <li *ngIf="isAuth"> 
                 <a routerLink="">
-                    AllGigs
+                    All Gigs
                 </a>
             </li>
-            <li> <!-- *ngIf="isAuth"> -->
+            <li  *ngIf="isAuth"> 
                 <a routerLink="/addgigs">
-                    AddGig
+                    Add Gig
                 </a>
             </li>
-            <li> <!-- *ngIf="isAuth" -->
+            <li *ngIf="isAuth">
                 <a style="cursor: pointer" (click)="onLogout()">
                     Logout
                 </a>

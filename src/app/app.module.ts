@@ -23,6 +23,7 @@ import { GigDetailsComponent } from './gig-details/gig-details.component';
 
 import { AuthService } from './auth/auth.service';
 import { GigService } from './gigService';
+import { UIservice } from './UIservice';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 
@@ -54,7 +55,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 
   ],
 
-  providers: [AuthService, GigService, { provide: MaterialModule, useValue: [] }],
+  providers: [AuthService, UIservice , GigService, { provide: MaterialModule, useValue: [] }],
   bootstrap: [AppComponent],
   entryComponents: [GigDetailsComponent]
 

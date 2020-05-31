@@ -23,22 +23,7 @@ import { Gigs } from '../gigModel';
                private gigService: GigService )  { }
 
 
-  // UserDetails: any[];
-  // gigsAndPunters: Observable<any[]>;
-  // gigsForAPunter: Observable<any[]>;
-  //  authSubscription: Subscription;
-  // gigsAndPuntersSub: Subscription;
-  // userID: string;
-  // gigID: any;
-  // count: number;
-  // gigs: Gigs[];
-  // gigIDArray = [];
-  // filteredGigs: Gigs;
 
-  // private avalablefilteredGigs: Gigs[] = [];
-
-  // private userIDcarry: string;
-  
    myGigSubscription: Subscription;
    filteredGigs: Gigs[];
     
@@ -61,3 +46,20 @@ import { Gigs } from '../gigModel';
     }
 
   }
+
+    // UserDetails: any[];
+  // gigsAndPunters: Observable<any[]>;
+  // gigsForAPunter: Observable<any[]>;
+  //  authSubscription: Subscription;
+  // gigsAndPuntersSub: Subscription;
+  // userID: string;
+  // gigID: any;
+  // count: number;
+  // gigs: Gigs[];
+  // gigIDArray = [];
+  // filteredGigs: Gigs;
+
+  // private avalablefilteredGigs: Gigs[] = [];
+
+  // private userIDcarry: string;
+  

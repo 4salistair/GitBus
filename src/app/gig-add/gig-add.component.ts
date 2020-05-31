@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material';
 import { GigDetailsComponent } from '../gig-details/gig-details.component';
-
+import { UIservice } from '../UIservice';
 
 @Component({
 
@@ -29,12 +29,14 @@ export class GigAddComponent implements OnInit {
   private availableGigs: Gigs[] = [];
   private  gigMapArray: Gigs;
 
-  constructor(private gigService: GigService)  { }
+  constructor(private gigService: GigService,
+              private uiService: UIservice
+    )  { }
   ngOnInit() {
 
     this.allGigs = this.gigService.gigsChanged.subscribe(
       availableGigs => ( this.availableGigs = availableGigs ));
-    console.log(this.availableGigs);
+
   }
 
 
@@ -52,7 +54,13 @@ export class GigAddComponent implements OnInit {
             };
 
    this.gigService.addGig(this.gigMapArray);
+   this.uiService.showSnackbar('Gig added', null, 3000);
+   form.resetForm();
 
+  }
+
+  Reset(form: NgForm) {
+    form.resetForm();
   }
 
 }

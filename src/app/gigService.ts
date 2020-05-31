@@ -7,7 +7,8 @@ import { Gigs } from './gigModel';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from './auth/user.model';
 import { Observable } from 'rxjs/Observable';
-
+import { throwMatDuplicatedDrawerError } from '@angular/material';
+import { UIservice } from './UIservice';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,9 @@ export class GigService {
   private runningGigs: Gigs;
 
   constructor(private db: AngularFirestore,
-              private authServices: AuthService) { }
+              private authServices: AuthService,
+              private uiService: UIservice
+              ) { }
 
   fetchGigs() {
        this.db
@@ -108,20 +111,69 @@ export class GigService {
     this.runningGigs = this.availableGigs.find(
        ex => ex.id === gigID
     );
-
-    console.log('userID ' + this.userID);
-    this.db.collection('puntersGigs').add({
+    this.authServices.getUserID();
+    this.authSubscription = this.authServices.currentUser.subscribe(
+      userID => {(userID = userID);
+                 this.userID = userID; 
+  //  console.log('userID ' + this.userID);
+                 this.db.collection('puntersGigs').add({
                      ...this.runningGigs ,
                     userid: this.userID});
-
+                 this.uiService.showSnackbar('Get on it ya fooker', null, 3000)
+  });
   }
 
 
   myGig(currentUserID: string ) {
+    // tslint:disable-next-line: max-line-length
     currentUserID = 'eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg4ODQ4YjVhZmYyZDUyMDEzMzFhNTQ3ZDE5MDZlNWFhZGY2NTEzYzgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vZ2lnYnVzLTRmMGI1IiwiYXVkIjoiZ2lnYnVzLTRmMGI1IiwiYXV0aF90aW1lIjoxNTg4MzE5NzM4LCJ1c2VyX2lkIjoiN3EzQWVFbGE5c2dKTEY3QVNkSmx1QkRHS2lmMSIsInN1YiI6IjdxM0FlRWxhOXNnSkxGN0FTZEpsdUJER0tpZjEiLCJpYXQiOjE1ODgzMTk3MzgsImV4cCI6MTU4ODMyMzMzOCwiZW1haWwiOiIxMjM0NUAxMjMuMTIzIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbIjEyMzQ1QDEyMy4xMjMiXX0sInNpZ25faW5fcHJvdmlkZXIiOiJwYXNzd29yZCJ9fQ.d7JOqLvsRRTCIV05qOqIPwbceBBJagPkRfTY49Yy5i8wb3vK0JX_8GP3qdb8KhBuXxYyyOVEx-kVyKAfrweB994HH-C1rONrwE_giX7-shXh-nq49GNYHYbhtHB8lXe0Tev7pZ1P2hvEHFSJYWSgHfaMj4UsZl-t0ulcvCibz6L2RRTSMi9m0Xtq03Agw_zN0hiH9iOWJNt1Qr0ppCHqKqfbY3oclFYI-O4ND1Ys0cWPpbhlcgAk05TLjey5Z88ygW231foBZh08ikTCbIYJLk7tOF5a7I2Tcg6lQZkAH9JxxhbShN3nlMyvu8cGu2TxNSaq2utsROgmoZtuo913UA';
   }
 
+  totalPunterIncrement(gigID: string) {
+
+    this.runningGigs = this.availableGigs.find(
+      ex => ex.id === gigID
+   );
+
+
+    const punterCount = this.runningGigs.gigPunterCount ++;
+
+
+    console.log(punterCount);
+
+    this.db.collection('gigs')
+     .doc(gigID)
+     .set({ gigPunterCount: punterCount }, { merge: true });
+
+    }
+
+     runningCostDecrement(gigID: string) {
+
+      this.runningGigs = this.availableGigs.find(
+        ex => ex.id === gigID
+     );
+
+      const runningCost = this.runningGigs.gigTotalPrice / this.runningGigs.gigPunterCount ;
+
+      console.log(runningCost);
+
+      this.db.collection('gigs')
+        .doc(gigID)
+        .set({ gigRunningCostPerPunter: runningCost }, { merge: true });
+
+  }
+
 }
+
+
+  // console.log('delay ' + punterCount);
+   // this.signUp(gig);
+       // Not sure I need this!!!
+
+    // if (gig.gigPunterCount == NaN) {
+    //   gig.gigPunterCount = 0;
+    //   console.log('if null set to 0');
+    // }
 
    //    duration: this.runningExercise.duration * (progress / 100),
     //    calories: this.runningExercise.calories * (progress / 100),
