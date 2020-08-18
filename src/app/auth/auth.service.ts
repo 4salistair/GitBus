@@ -90,10 +90,11 @@ export class AuthService {
 
          this.afauth.user.subscribe(user => {
              this.currentUser.next(user.uid);
+
          });
 
       //   7q3AeEla9sgJLF7ASdJluBDGKif1
-
+      //   return this.user;
     }
 
     

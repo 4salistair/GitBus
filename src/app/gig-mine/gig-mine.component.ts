@@ -24,25 +24,27 @@ import { Gigs } from '../gigModel';
 
 
 
-   myGigSubscription: Subscription;
+   private GigSubscription: Subscription;
    filteredGigs: Gigs[];
-    
+   Number: number;
+   Determinate: number;
+
 
     ngOnInit() {
 
-
-
-      this.myGigSubscription = this.gigService.filteredGigsChanged.subscribe(
+      this.GigSubscription = this.gigService.filteredGigsChanged.subscribe(
 
         filteredGigs => { this.filteredGigs = filteredGigs;
         });
       this.gigService.fetchGigsForCurrentUser();
 
+      this.Number = 9;
+     // this.Determinate = 0;
     }
 
     ngOnDestroy( ) {
-      this.myGigSubscription.unsubscribe();
-      // this.authSubscription.unsubscribe();
+        this.GigSubscription.unsubscribe();
+
     }
 
   }

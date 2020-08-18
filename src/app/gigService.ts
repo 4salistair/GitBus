@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { Subject } from 'rxjs/Subject';
-import { map } from 'rxjs/operators';
-import { Subscription} from 'rxjs';
+import { map, switchMap} from 'rxjs/operators';
+import { Subscription, of} from 'rxjs';
 import { Gigs } from './gigModel';
 import { AuthService } from 'src/app/auth/auth.service';
 import { User } from './auth/user.model';
 import { Observable } from 'rxjs/Observable';
 import { throwMatDuplicatedDrawerError } from '@angular/material';
 import { UIservice } from './UIservice';
+import 'rxjs/add/operator/toPromise';
+import { and, waitForMap } from '@angular/router/src/utils/collection';
+import { bloomAdd } from '@angular/core/src/render3/di';
+//  import { async } from 'rxjs/internal/scheduler/async';
+
 
 @Injectable({
   providedIn: 'root'
@@ -22,23 +27,47 @@ export class GigService {
   private availableGigs: Gigs[] = [];
   gigsChanged = new Subject<Gigs[]>();
 
+  isAlreadySubject = new Subject <Gigs[]>();
+
   private filteredGigs: Gigs[] = [];
   filteredGigsChanged = new Subject<Gigs[]>();
 
   id: string;
 
   gigsAndPuntersChanged = new Subject<Gigs[]>();
-
+  
   authSubscription: Subscription;
+  gigSubscription: Subscription;
+
+  isOnBus: boolean;
+  isOnBusChanged = new Subject<boolean>();
+
+  isOnBusoutcome: boolean;
+  //
+ // gigsforPunter = new 
+  // private punterGigs: Gigs[] = [];
+ // hasRecords: boolean;
+  //
+
   userID: string;
   userIDcarry: string;
 
   private runningGigs: Gigs;
+  private punterGigs: Gigs;
+  private incrementGigs: Gigs;
 
   constructor(private db: AngularFirestore,
               private authServices: AuthService,
               private uiService: UIservice
-              ) { }
+              ) {
+
+
+                this.authServices.getUserID();
+
+                this.authSubscription = this.authServices.currentUser.subscribe(
+                   userID => {(userID = userID);
+                              this.userID = userID; });
+              }
 
   fetchGigs() {
        this.db
@@ -54,7 +83,8 @@ export class GigService {
             gigDate: doc.payload.doc.data()['gigDate'],
             gigTotalPrice: doc.payload.doc.data()['gigTotalPrice'],
             gigRunningCostPerPunter: doc.payload.doc.data()['gigRunningCostPerPunter'],
-            gigPunterCount: doc.payload.doc.data()['gigPunterCount']
+            gigPunterCount: doc.payload.doc.data()['gigPunterCount'],
+            gigID: doc.payload.doc.id
             };
           });
         })
@@ -86,7 +116,10 @@ export class GigService {
          gigVenueName: doc.payload.doc.data()['gigVenueName'],
          gigDate: doc.payload.doc.data()['gigDate'],
          gigTotalPrice: doc.payload.doc.data()['gigTotalPrice'],
-         gigPunterCount: doc.payload.doc.data()['gigPunterCount']
+         gigPunterCount: doc.payload.doc.data()['gigPunterCount'],
+         giguserID: doc.payload.doc.data()['userid'],
+         gigID: doc.payload.doc.data()['gigID'],
+         gigRunningCostPerPunter: doc.payload.doc.data()['gigRunningCostPerPunter']
          };
        });
      })
@@ -106,21 +139,32 @@ export class GigService {
     this.db.collection('gigs').add(gig);
   }
 
+ 
+
   puntersGigs(gigID: string) {
 
-    this.runningGigs = this.availableGigs.find(
+    this.punterGigs = this.availableGigs.find(
        ex => ex.id === gigID
     );
+
+
+
     this.authServices.getUserID();
     this.authSubscription = this.authServices.currentUser.subscribe(
-      userID => {(userID = userID);
-                 this.userID = userID; 
-  //  console.log('userID ' + this.userID);
-                 this.db.collection('puntersGigs').add({
-                     ...this.runningGigs ,
-                    userid: this.userID});
-                 this.uiService.showSnackbar('Get on it ya fooker', null, 3000)
-  });
+     userID => {(userID = userID);
+                this.userID = userID;
+              });
+   
+  // tslint:disable-next-line: no-unused-expression
+
+    if (this.userID) {
+                      this.db.collection('puntersGigs').add({
+                      ...this.punterGigs,
+                      userid: this.userID
+                      });
+           //       this.uiService.showSnackbar('Get on it ya fooker', null, 3000)
+                    }
+                  
   }
 
 
@@ -131,15 +175,14 @@ export class GigService {
 
   totalPunterIncrement(gigID: string) {
 
-    this.runningGigs = this.availableGigs.find(
+    this.incrementGigs = this.availableGigs.find(
       ex => ex.id === gigID
    );
 
 
-    const punterCount = this.runningGigs.gigPunterCount ++;
+    const punterCount = this.incrementGigs.gigPunterCount ++;
 
 
-    console.log(punterCount);
 
     this.db.collection('gigs')
      .doc(gigID)
@@ -155,7 +198,7 @@ export class GigService {
 
       const runningCost = this.runningGigs.gigTotalPrice / this.runningGigs.gigPunterCount ;
 
-      console.log(runningCost);
+      
 
       this.db.collection('gigs')
         .doc(gigID)
@@ -163,7 +206,193 @@ export class GigService {
 
   }
 
+///
+  isAlready(gigID: string) {
+   // console.log('gigID in isAlready function ' + gigID);
+
+
+    this.fetchGigsForCurrentUser();
+
+    // if (this.filteredGigs) {
+    //     this.isAlreadySubject.next(true);
+    //   } else {
+    //     this.isAlreadySubject.next(false);
+    //   }
+
 }
+
+///
+getAllGigsForAllPunters() {
+  this.db.collection('puntersGigs')
+  .valueChanges()
+  .subscribe((gigs: Gigs[]  ) => {
+   this.isAlreadySubject.next(gigs);
+  });
+}
+
+
+punterAlreadyonGig( gigID: string) {
+
+
+
+
+  const filter = this.db.collection('puntersGigs', ref => ref.where('userid', '==', this.userID)
+                                                              .where('gigID', '==', gigID )
+              );
+
+  filter
+.snapshotChanges()
+.pipe(map(docData => {
+ return docData.map(doc => {
+  return {
+     id: doc.payload.doc.id,
+     gigArtistName: doc.payload.doc.data()['gigArtistName'],
+     gigDescription: doc.payload.doc.data()['gigDescription'],
+     gigVenueName: doc.payload.doc.data()['gigVenueName'],
+     gigDate: doc.payload.doc.data()['gigDate'],
+     gigTotalPrice: doc.payload.doc.data()['gigTotalPrice'],
+     gigPunterCount: doc.payload.doc.data()['gigPunterCount'],
+     giguserID: doc.payload.doc.data()['userid'],
+     gigID: doc.payload.doc.data()['gigID']
+     };
+   });
+ })
+ )
+ .subscribe((filteredGigs: Gigs[]) => {
+ this.filteredGigs =  filteredGigs;
+
+ if ( this.filteredGigs.length > 0) {
+  console.log(this.filteredGigs);
+  console.log('already selected by user');
+  console.log(gigID);
+  console.log(this.filteredGigs[0].gigArtistName);
+  this.isOnBusChanged.next(true);
+  this.isOnBusoutcome = true;
+ } else {
+  console.log(this.filteredGigs);
+  console.log('not selected by user');
+  console.log(gigID);
+  this.isOnBusChanged.next(false);
+  this.isOnBusoutcome = false;
+}
+ 
+ });
+
+
+  return true;
+}
+
+//
+
+                                                            // this.authServices.getUserID();
+
+
+                                                              // where('userid', '==', userID
+
+//   return this.db.collection('puntersGigs', ref => ref.where('gigID', '==', gigID))
+                    
+
+//                       .snapshotChanges()
+//                       .pipe(map(docData => {
+//                        return docData.map(doc => {
+//                         return {
+//                            id: doc.payload.doc.id
+//                           };
+//                         });
+//                       })
+//                       );
+
+// }
+
+
+ 
+
+
+
+ // }
+                      //          return this.hasRecords;
+  //               filter
+  // .
+  // snapshotChanges()
+  // .pipe(map(docData => {
+  //  return docData.map(doc => {
+  //   return {
+  //      id: doc.payload.doc.id,
+  //      gigArtistName: doc.payload.doc.data()['gigArtistName'],
+  //      gigDescription: doc.payload.doc.data()['gigDescription'],
+  //      gigVenueName: doc.payload.doc.data()['gigVenueName'],
+  //      gigDate: doc.payload.doc.data()['gigDate'],
+  //      gigTotalPrice: doc.payload.doc.data()['gigTotalPrice'],
+  //      gigPunterCount: doc.payload.doc.data()['gigPunterCount'],
+  //      giguserID: doc.payload.doc.data()['userid'],
+  //      gigID: doc.payload.doc.data()['gigID']
+  //      };
+  //    });
+  //  })
+  //  )
+  //  .subscribe((filteredGigs: Gigs[]) => {
+  //  this.filteredGigs =  filteredGigs;
+  //  this.filteredGigsChanged.next([...this.filteredGigs]);
+  //  });
+
+// });
+
+
+
+
+
+
+
+//   this.fetchGigsForCurrentUser();
+
+//   setTimeout(() => {
+//     console.log(this.filteredGigs);
+//   }, 1500);
+
+
+
+//   this.gigSubscription = this.filteredGigsChanged.subscribe(
+//        filteredGigs => { this.filteredGigs = filteredGigs; } );
+
+//   console.log(this.filteredGigs);
+// }
+///
+
+   // this.authServices.getUserID();
+
+    // this.authSubscription = this.authServices.currentUser.subscribe(
+    //        userID => {(userID = userID);
+    //                 this.userID = userID;
+    //                 const filter = this.db.collection('puntersGigs', ref => ref.where('userid', '==', '7q3AeEla9sgJLF7ASdJluBDGKif1' ));
+
+    //                 filter
+  //      .snapshotChanges()
+  //      .pipe(map(docData => {
+  //      return docData.map(doc => {
+  //      return {
+  //         id: doc.payload.doc.id,
+  //        gigArtistName: doc.payload.doc.data()['gigArtistName'],
+  //        gigDescription: doc.payload.doc.data()['gigDescription'],
+  //        gigVenueName: doc.payload.doc.data()['gigVenueName'],
+  //        gigDate: doc.payload.doc.data()['gigDate'],
+  //        gigTotalPrice: doc.payload.doc.data()['gigTotalPrice'],
+  //        gigPunterCount: doc.payload.doc.data()['gigPunterCount']
+  //        };
+  //      });
+  //    })
+  //    )
+  //    .subscribe((filteredGigs: Gigs[]) => {
+  //    this.filteredGigs =  filteredGigs;
+  //    this.filteredGigsChanged.next([...this.filteredGigs]);
+  //    });
+  //  });
+
+
+
+  }
+
+
+
 
 
   // console.log('delay ' + punterCount);

@@ -1,7 +1,34 @@
+
+
+
+<!-- <div class="cardFormat" *ngFor="let gig of gigs | PunterAlreadyOnGig">
+  {{  gig.gigDescription  }}
+</div> -->
+
+<div class="cardFormat" *ngFor="let gig of gigs | PunterAlreadyOnGig: gigsFiltered" > 
+  {{  gig.gigDescription  }}
+</div>
+
+
+<!-- : filters: 'gigsFiltered' -->
+<!-- <div class="cardFormat" *ngFor="let gig of gigsFiltered">
+  {{  gig.gigDescription  }}
+</div> -->
+
+
 <div fxLayout="column" fxLayoutAlign="space-around center">
 <div class="cardFormat" *ngFor="let gig of gigs">
   <mat-card>
+    
+ 
+    <!-- {{ gig.id  | PunterAlreadyOnGig | async  }} -->
+    <!-- {{ onBusAlready | async}} -->
+
+    <!-- {{  isAlreadyOnBus$ | async }} -->
+   
+
     <mat-card-header> 
+     
       <mat-card-title>    {{ gig.gigArtistName }} </mat-card-title>
       <mat-card-subtitle> {{ gig.gigDescription }} </mat-card-subtitle>
       <mat-card-subtitle> {{ gig.gigVenueName}} </mat-card-subtitle>
@@ -9,29 +36,34 @@
           <!--?? .toMillis()  | date: 'medium' ??-->
     </mat-card-header>
     
-    <mat-card-content>
-      <br> The total cost:<br>
-      <h2>£{{ gig.gigTotalPrice }}</h2><br>
-        The number of people currently going: <h2>{{ gig.gigPunterCount }}</h2>. <br>
-        This means costs per person is:<h2>£{{ gig.gigRunningCostPerPunter  }}</h2>.  <br>
-        Places left<h2>{{ 8 - gig.gigPunterCount }} </h2> <br>With all seats taken the cost would be <h2>£{{ (gig.gigTotalPrice / 8) | number:'1.2-2' }}</h2> 
+    <mat-card-content><br> 
+      The total cost: <b>£{{ gig.gigTotalPrice }}</b><br><br>
+      The number of people currently going: <b>{{ gig.gigPunterCount }}</b><br><br>
+      This means costs per person is: <b>£{{ gig.gigRunningCostPerPunter  }}</b><br><br>
+      Places left: <b>{{ 8 - gig.gigPunterCount }} </b><br><br>
+      With all seats taken the cost would be: <b>£{{ (gig.gigTotalPrice / 8) | number:'1.2-2' }}</b> 
       
-
+      
    
     </mat-card-content>
   
   
     <mat-card-actions>
-    
-      <button button (click)="totalPunterIncrement(gig)" mat-raised-button *ngIf="!isAuth"> SIGN UP </button>
-     <!--- <button mat-button  mat-raised-button *ngIf="isAuth" (click)="addPunter(gig)">LIKE</button> -->
+
       
-      <button mat-button  mat-raised-button *ngIf="isAuth" (click)="addPunterGig(gig.id)">LIKE TEST</button>
+      <p *ngIf="gigMatch"> We have a gig Match</p>
+    
+      <button button (click)="signUp(gig)" mat-raised-button *ngIf="!isAuth"> SIGN UP </button>
+      
+     <!-- <button mat-button  mat-raised-button (click)="testToggle(gig.id)">ALREADY LIKED TEXT</button>
+     <button mat-button  mat-raised-button *ngIf="isAlready" (click)="addPunterGig(gig.id)">ALREADY LIKED NO</button> -->
+      <button mat-button  mat-raised-button *ngIf="isAuth" (click)="addPunterGig(gig.id)">LIKE</button>
       <button mat-button  mat-raised-button *ngIf="isAuth">SHARE</button>
     </mat-card-actions>
   </mat-card>
 <br>
 <br>
+
 </div>
 
 <!-- <div *ngIf="gigs$ | async; let Gigs; else loading">

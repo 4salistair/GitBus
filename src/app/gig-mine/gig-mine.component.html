@@ -6,16 +6,24 @@
      <mat-card>
        <mat-card-header> 
          <mat-card-title>    {{gig.gigArtistName }}</mat-card-title>
-         <mat-card-subtitle> {{gig.gigDescription}} </mat-card-subtitle>
          <mat-card-subtitle> {{gig.gigVenueName}} </mat-card-subtitle>
          <mat-card-subtitle> {{gig.gigDate.toMillis()  | date: 'medium'}} </mat-card-subtitle>
-         <mat-card-subtitle> {{gig.gigPunterCount }} </mat-card-subtitle>
+         <mat-card-subtitle>  </mat-card-subtitle>
        </mat-card-header>
        
        <mat-card-content>   
-        <mat-progress-bar mode="determinate" value="10"></mat-progress-bar>
-       </mat-card-content>
      
+      <br> 
+          The number of people currently going: <b>{{ gig.gigPunterCount }}</b><br><br>
+          <b><mat-progress-bar  [value] = '(gig.gigPunterCount / 8) * 100'  ></mat-progress-bar></b><br><br>
+          This means costs per person is: <b>£{{ gig.gigRunningCostPerPunter  }}</b><br><br>
+          Places left: <b>{{ 8 - gig.gigPunterCount }} </b><br><br>
+          With all seats taken the cost would be: <b>£{{ (gig.gigTotalPrice / 8) | number:'1.2-2' }}</b> 
+          
+          
+     
+        
+       </mat-card-content>
      
        <mat-card-actions>
       

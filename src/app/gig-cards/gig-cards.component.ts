@@ -9,7 +9,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/fire
 import { MatDialog } from '@angular/material';
 import { GigDetailsComponent } from '../gig-details/gig-details.component';
 import { AuthService } from 'src/app/auth/auth.service';
-
+// import { PunterAlreadyOnGig} from '../punterAlreadyOnGig.pipe';
 
 
 
@@ -28,6 +28,7 @@ export class GigCardsComponent implements OnInit, OnDestroy {
 
 private gigObservible: Observable<Gigs[]>;
 
+
   totalVote = 0;
   totalrunningPrice = 10;
 
@@ -37,34 +38,102 @@ private gigObservible: Observable<Gigs[]>;
   selector: 'date-pipe';
 
   private isAuth = false;
+
+  private isAlready = true;
+  private gigsAllPunters: Gigs[];
+ 
+  filteredGigSubscription: Subscription;
+  private isGigs: any;
+
+  private onBusAlready: boolean;
+
+ //
+ // isAlreadySubscription: Subscription;
+ isAlreadySubscription: Subscription;
+
+  isAlreadyOnBus$: Observable<boolean>;
+ //
+
   AuthCarry: boolean;
   userID: string;
 
   authSubscription: Subscription;
   currentuserSubscription: Subscription;
-
+//  OnbusAlready: Subscription;
+ 
+stringTest: string;
+gigsFiltered: Gigs[];
+gigFilterSubscription: Subscription;
 
   constructor(private gigService: GigService,
               private db: AngularFirestore,
               private dialog: MatDialog,
-              private authServices: AuthService) {}
+              private authServices: AuthService,
+              ) {
+
+
+
+              }
 
 
 ngOnInit() {
 
-    this.gigSubscription = this.gigService.gigsChanged.subscribe(
-      gigs => (this.gigs = gigs)
+
+  this.gigSubscription = this.gigService.gigsChanged.subscribe(
+    gigs => (this.gigs = gigs)
     );
-    this.gigService.fetchGigs();
+  this.gigService.fetchGigs();
 
-    this.authServices.innitAuthListener();
+  this.gigFilterSubscription = this.gigService.filteredGigsChanged.subscribe(
+    gigsFiltered =>  (this.gigsFiltered = gigsFiltered)
+  );
 
-    this.authSubscription = this.authServices.authChange.subscribe(
+  this.gigService.fetchGigsForCurrentUser();
+ 
+
+ 
+
+
+
+
+  
+  
+
+  this.stringTest = '1234string';
+ // this.isAlreadyOnBus$ = this.punterOnGigPipe.isOnBusChanged.subscribe();
+
+  // this.isAlreadySubscription = this.gigService.isOnBusChanged.subscribe(
+  //  onBusAlready => { (this.onBusAlready = onBusAlready );
+  //                    console.log('inSub ' + this.onBusAlready);
+  //   });
+
+
+
+
+  ///
+
+ // this.gigService.fetchGigs();
+  ///
+
+  this.authServices.innitAuthListener();
+
+  this.authSubscription = this.authServices.authChange.subscribe(
       authStatus => { (
                 this.isAuth = authStatus);
     });
 
   }
+
+
+//
+  // testToggle() {
+
+  //   this.isAlreadySubscription = this.gigService.isAlreadySubject.subscribe(
+  //     isAlready => (this.isAlready = isAlready)
+  //     );
+  //   this.gigService.isAlready(this.userID);
+  // }
+//
 
 
   signUp(gig: Gigs) {
@@ -100,6 +169,67 @@ ngOnInit() {
 
   }
 
+  callIsAlready() {
+
+
+    this.isAlreadySubscription = this.gigService.isAlreadySubject.subscribe(
+      gigsAllPunters => { (this.gigsAllPunters = gigsAllPunters);
+
+     }
+    );
+    this.gigService.getAllGigsForAllPunters();
+    console.log('All Gigs ' + this.gigsAllPunters);
+
+    // return this.isAlready;
+  }
+
+    // this.authSubscription = this.authServices.currentUser.subscribe(
+    //   userID => { (this.userID = userID);
+
+    //  });
+    // this.authServices.getUserID();
+    // console.log(this.userID.substring(0, 50));
+
+
+//  console.log('isAlready boolean before ' + this.isAlready);
+
+    // this.filteredGigSubscription = this.gigService.filteredGigsChanged.subscribe(
+    //   isGigs => (this.isGigs = isGigs)
+
+    //   );
+
+    // this.gigService.fetchGigsForCurrentUser();
+    // console.log('isGigs ' + this.isGigs);
+
+      // this.myGigSubscription = this.gigService.filteredGigsChanged.subscribe(
+
+      //   filteredGigs => { this.filteredGigs = filteredGigs;
+      //   });
+      // this.gigService.fetchGigsForCurrentUser();
+
+
+
+   
+    
+    // const gigMatch = false;
+
+  //  const user = this.authServices.getUser();
+   //  this.authServices.getUserID();
+    // console.log('userID ' + userID);
+
+   
+   // console.log('userNumber ' + user.userID);
+   // return gigMatch;
+
+    // this.authServices.getUserID();
+
+    // this.authSubscription = this.authServices.currentUser.subscribe(
+    //  userID => { (this.userID = userID);
+    //              console.log(userID.substring(0, 50));
+
+   //  });
+
+ 
 
 
 
@@ -168,6 +298,8 @@ ngOnInit() {
 
     this.gigSubscription.unsubscribe();
     this.authSubscription.unsubscribe();
+    //
+   // this.isAlreadySubscription.unsubscribe();
 
   }
 

@@ -8,4 +8,6 @@ export interface Gigs {
     gigTotalPrice: number;
     gigRunningCostPerPunter?: number;
     gigPunterCount?: number;
+    giguserID?: string;
+    gigID?: string;
 }

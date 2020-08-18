@@ -27,6 +27,9 @@ import { UIservice } from './UIservice';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 
+import { PunterAlreadyOnGig } from './punterAlreadyOnGig.pipe';
+import { Pipe, PipeTransform } from '@angular/core';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +40,8 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
     SignupComponent,
     HeaderComponent,
     SidenavListComponent,
-    GigMineComponent
+    GigMineComponent,
+    PunterAlreadyOnGig
 
   ],
   imports: [
