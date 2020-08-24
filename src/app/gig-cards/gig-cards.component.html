@@ -1,30 +1,8 @@
 
-
-
-<!-- <div class="cardFormat" *ngFor="let gig of gigs | PunterAlreadyOnGig">
-  {{  gig.gigDescription  }}
-</div> -->
-
-<div class="cardFormat" *ngFor="let gig of gigs | PunterAlreadyOnGig: gigsFiltered" > 
-  {{  gig.gigDescription  }}
-</div>
-
-
-<!-- : filters: 'gigsFiltered' -->
-<!-- <div class="cardFormat" *ngFor="let gig of gigsFiltered">
-  {{  gig.gigDescription  }}
-</div> -->
-
-
 <div fxLayout="column" fxLayoutAlign="space-around center">
-<div class="cardFormat" *ngFor="let gig of gigs">
+<div class="cardFormat" *ngFor="let gig of gigs | PunterAlreadyOnGig: gigsFiltered">
   <mat-card>
     
- 
-    <!-- {{ gig.id  | PunterAlreadyOnGig | async  }} -->
-    <!-- {{ onBusAlready | async}} -->
-
-    <!-- {{  isAlreadyOnBus$ | async }} -->
    
 
     <mat-card-header> 

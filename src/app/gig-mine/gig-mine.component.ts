@@ -42,6 +42,11 @@ import { Gigs } from '../gigModel';
      // this.Determinate = 0;
     }
 
+    deleteGig(id) {
+      this.gigService.deleteGigForPunter(id);
+
+    }
+
     ngOnDestroy( ) {
         this.GigSubscription.unsubscribe();
 

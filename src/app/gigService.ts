@@ -237,7 +237,7 @@ punterAlreadyonGig( gigID: string) {
 
 
   const filter = this.db.collection('puntersGigs', ref => ref.where('userid', '==', this.userID)
-                                                              .where('gigID', '==', gigID )
+                                                             .where('gigID', '==', gigID )
               );
 
   filter
@@ -262,24 +262,31 @@ punterAlreadyonGig( gigID: string) {
  this.filteredGigs =  filteredGigs;
 
  if ( this.filteredGigs.length > 0) {
-  console.log(this.filteredGigs);
-  console.log('already selected by user');
-  console.log(gigID);
-  console.log(this.filteredGigs[0].gigArtistName);
-  this.isOnBusChanged.next(true);
-  this.isOnBusoutcome = true;
+    console.log(this.filteredGigs);
+    // console.log('already selected by user');
+    // console.log(gigID);
+    // console.log(this.filteredGigs[0].gigArtistName);
+    this.isOnBusChanged.next(true);
+    this.isOnBusoutcome = true;
  } else {
-  console.log(this.filteredGigs);
-  console.log('not selected by user');
-  console.log(gigID);
-  this.isOnBusChanged.next(false);
-  this.isOnBusoutcome = false;
+    console.log(this.filteredGigs);
+    // console.log('not selected by user');
+    // console.log(gigID);
+    this.isOnBusChanged.next(false);
+    this.isOnBusoutcome = false;
 }
- 
+
  });
 
 
   return true;
+}
+
+
+deleteGigForPunter(id) {
+
+  this.db.collection('puntersGigs').doc(id).delete();
+
 }
 
 //

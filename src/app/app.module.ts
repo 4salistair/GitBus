@@ -26,9 +26,9 @@ import { GigService } from './gigService';
 import { UIservice } from './UIservice';
 import { HeaderComponent } from './navigation/header/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
-
 import { PunterAlreadyOnGig } from './punterAlreadyOnGig.pipe';
 import { Pipe, PipeTransform } from '@angular/core';
+import { ShareButtonModule } from 'ngx-sharebuttons/button';
 
 @NgModule({
   declarations: [
@@ -45,7 +45,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
   ],
   imports: [
-
+    ShareButtonModule,
     BrowserModule,
     FormsModule,
     BrowserModule,
@@ -55,7 +55,7 @@ import { Pipe, PipeTransform } from '@angular/core';
     BrowserAnimationsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    AngularFireAuthModule,
+    AngularFireAuthModule
 
   ],
 
